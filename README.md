@@ -37,3 +37,10 @@ Most Sublime Text build systems assume you have the build executable (`MSBuild.e
 
 ##Package Developers
 If you want to modify the syntax highlighter or otherwise work on enhancing the package to suit your needs, it's recommended you get the [AAAPackageDev](https://github.com/SublimeText/AAAPackageDev) package for Sublime Text. This allows you to edit syntax files in `.JSON-tmLanguage` format and compile them into PList rather than manually editing PList directly. It also has several helpers/templates for adding functionality to Sublime Text packages.
+
+Additional helpful links:
+* [TextMate Language Grammars](http://manual.macromates.com/en/language_grammars) - Sublime Text uses a TextMate-compatible syntax highlighting mechanism including the naming for various scopes.
+* [Syntax Definition Reference](http://docs.sublimetext.info/en/latest/reference/syntaxdefs.html)
+* [Snippet Reference](http://docs.sublimetext.info/en/latest/reference/snippets.html)
+* [Build System Reference](http://docs.sublimetext.info/en/latest/reference/build_systems.html)
+* [Completion Reference](http://docs.sublimetext.info/en/latest/reference/completions.html)
