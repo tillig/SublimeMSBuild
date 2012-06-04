@@ -1,0 +1,339 @@
+{
+	"name": "MSBuild",
+	"scopeName": "source.msbuild",
+	"fileTypes": ["proj", "targets", "msbuild", "csproj", "vbproj"],
+	"uuid": "03ca5980-703e-4ee9-8271-d34088df8532",
+	"foldingStartMarker": "^\\s*(<[^!?%/](?!.+?(/>|</.+?>))|<[!%]--(?!.+?--%?>)|<%[!]?(?!.+?%>))",
+	"foldingStopMarker": "^\\s*(</[^>]+>|[/%]>|-->)\\s*$",
+	"patterns": [
+		{
+			"comment": "Preprocessor directives",
+			"begin": "(<\\?)\\s*([-_a-zA-Z0-9]+)",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "entity.name.tag.msbuild"}
+			},
+			"end": "(\\?>)",
+			"name": "meta.tag.preprocessor.msbuild",
+			"patterns": [
+				{
+					"match": " ([a-zA-Z-]+)",
+					"name": "entity.other.attribute-name.msbuild"
+				},
+				{ "include": "#doubleQuotedString" },
+				{ "include": "#singleQuotedString" }
+			]
+		},
+		{
+			"comment": "Comment blocks",
+			"begin": "<!--",
+			"captures": {
+				"0": { "name": "punctuation.definition.comment.msbuild"}
+			},
+			"end": "-->",
+			"name": "comment.block.msbuild"
+		},
+		{
+			"comment": "MSBuild keywords",
+			"begin": "(</?)(ItemGroup|Import|Output|ParameterGroup|Project|ProjectExtensions|PropertyGroup|Target|UsingTask)\\b",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "keyword.other.source.msbuild"}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.tag.end.msbuild" }
+			},
+			"name": "meta.tag.msbuild",
+			"patterns": [
+				{ "include": "#tagAttribute" }
+			]
+		},
+		{
+			"comment": "MSBuild flow control",
+			"begin": "(</?)(Choose|OnError|Otherwise|When)\\b",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "keyword.control.source.msbuild"}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.tag.end.msbuild" }
+			},
+			"name": "meta.tag.msbuild",
+			"patterns": [
+				{ "include": "#tagAttribute" }
+			]
+		},
+		{
+			"comment": "MSBuild tasks",
+			"begin": "(</?)(AL|AspNetCompiler|AssignCulture|AssignProjectConfiguration|AssignTargetPath|CallTarget|CombinePath|ConvertToAbsolutePath|Copy|CreateCSharpManifestResourceName|CreateItem|CreateProperty|CreateVisualBasicManifestResourceName|Csc|Delete|Error|Exec|FindAppConfigFile|FindInList|FindUnderPath|FormatUrl|FormatVersion|GenerateApplicationManifest|GenerateDeploymentManifest|GenerateResource|GenerateTrustInfo|GetAssemblyIdentity|GetFrameworkPath|GetFrameworkSdkPath|GetReferenceAssemblyPaths|LC|MakeDir|Message|Move|MSBuild|ReadLinesFromFile|RegisterAssembly|RemoveDir|RemoveDuplicates|RequiresFramework35SP1Assembly|ResolveAssemblyReference|ResolveComReference|ResolveKeySource|ResolveManifestFiles|ResolveNativeReference|REsolveNonMSBuildProjectOutput|SGen|SignFile|Touch|UnregisterAssembly|UpdateManifest|Vbc|Warning|WriteCodeFragment|WriteLinesToFile|XmlPeek|XmlPoke|XslTransformation)\\b",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "support.function.source.msbuild"}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.tag.end.msbuild" }
+			},
+			"name": "meta.tag.msbuild",
+			"patterns": [
+				{ "include": "#tagAttribute" }
+			]
+		},
+		{
+			"comment": "Project item types",
+			"begin": "(</?)(CodeAnalysisDictionary|Compile|Content|EmbeddedResource|None|Reference)\\b",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "keyword.other.source.msbuild"}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.tag.end.msbuild" }
+			},
+			"name": "meta.tag.msbuild",
+			"patterns": [
+				{ "include": "#tagAttribute" }
+			]
+		},
+		{
+			"comment": "Standard tags",
+			"begin": "(</?)(?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9:]+)",
+			"captures": {
+				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
+				"2": { "name": "entity.name.tag.namespace.msbuild" },
+				"3": { "name": "entity.name.tag.msbuild"},
+				"4": { "name": "punctuation.separator.namespace.msbuild"},
+				"5": { "name": "entity.name.tag.localname.msbuild"}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.tag.end.msbuild" }
+			},
+			"name": "meta.tag.msbuild",
+			"patterns": [
+				{ "include": "#tagAttribute" }
+			]
+		},
+		{
+			"comment": "Allow encoded entities",
+			"include": "#entity"
+		},
+		{
+			"comment": "No floating unencoded ampersands",
+			"include": "#bareAmpersand"
+		},
+		{
+			"comment": "Well-known variables in tag inner text",
+			"include": "#reservedProperty"
+		},
+		{
+			"comment": "Well-known item metadata embedded in variables",
+			"include": "#wellKnownMetadataEmbedded"
+		},
+		{
+			"comment": "Item references in tag inner text",
+			"include": "#itemReference"
+		},
+		{
+			"comment": "Variables in tag inner text",
+			"include": "#variable"
+		},
+		{
+			"comment": "CDATA sections",
+			"begin": "<!\\[CDATA\\[",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.string.begin.msbuild" }
+			},
+			"end": "]]>",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.string.end.msbuild" }
+			},
+			"name": "string.unquoted.cdata.msbuild"
+		}
+	],
+	"repository": {
+		"tagAttribute": {
+			"comment": "SomeAttribute=SomeValue",
+			"patterns": [
+				{
+					"match": "\\s+(?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9]+)\\s*=\\s*",
+					"captures" : {
+						"1" : { "name": "entity.other.attribute-name.namespace.msbuild" },
+						"2" : { "name": "entity.other.attribute-name.msbuild" },
+						"3" : { "name": "punctuation.separator.namespace.msbuild" },
+						"4" : { "name": "entity.other.attribute-name.localname.msbuild" }
+					}
+				},
+				{ "include": "#doubleQuotedString" },
+				{ "include": "#singleQuotedString" }
+			]
+		},
+		"reservedProperty": {
+			"comment": "Properties provided by MSBuild",
+			"name": "support.constant.source.msbuild",
+			"match": "(?i)(\\$\\()(MSBuild(BinPath|ExtensionsPath(?:32|64)?|ProjectDefaultTargets|ProjectDirectory|ProjectExtension|ProjectFile|ProjectFullPath|ProjectName|StartupDirectory))(\\))",
+			"captures": {
+				"1": { "name": "punctuation.definition.constant.begin.msbuild" },
+				"2": { "name": "support.constant.source.msbuild" },
+				"3": { "name": "punctuation.definition.constant.end.msbuild" }
+			}
+		},
+		"variable": {
+			"comment": "Variables that are properties or lists, not item references",
+			"name": "variable.parameter.source.msbuild",
+			"begin": "(?:\\$|\\@)\\(",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.variable.begin.msbuild" }
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.variable.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "$self" },
+				{ "include": "#reservedProperty" },
+				{ "include": "#wellKnownMetadataEmbedded" },
+				{ "include": "#itemReference" },
+				{ "include": "#entity" },
+				{ "include": "#bareAmpersand" },
+				{
+					"name": "keyword.operator.source.msbuild",
+					"match": "->"
+				},
+				{
+					"name": "support.function.source.msbuild",
+					"match": "(?i)Registry:"
+				},
+				{
+					"comment": "Inline framework static class functions supported",
+					"name": "support.function.source.msbuild",
+					"match": "\\[(?:(?:Microsoft\\.Build\\.Utilities\\.ToolLocationHelper)|(?:System\\.(?:Byte|Char|Convert|DateTime|Decimal|Double|Enum|Guid|U?Int(?:16|32|64)|IO\\.Path|Math|SByte|Single|String(?:Comparer)?|TimeSpan|Text\\.RegularExpressions\\.Regex)))\\]::[_a-zA-Z0-9]+"
+				},
+				{
+					"comment": "Inline framework specific static methods supported: System.Environment",
+					"name": "support.function.source.msbuild",
+					"match": "\\[System\\.Environment\\]::(?:CommandLine|ExpandEnvironmentVariables|GetEnvironmentVariables?|GetFolderPath|GetLogicalDrives)"
+				},
+				{
+					"comment": "Inline framework specific static methods supported: System.IO.Directory",
+					"name": "support.function.source.msbuild",
+					"match": "\\[System\\.IO\\.Directory\\]::(?:GetDirectories|GetFiles|GetLastAccessTime|GetLastWriteTime|GetParent)"
+				},
+				{
+					"comment": "Inline framework specific static methods supported: System.IO.File",
+					"name": "support.function.source.msbuild",
+					"match": "\\[System\\.IO\\.Directory\\]::(?:Exists|GetCreationTime|GetAttributes|GetLastAccessTime|GetLastWriteTime|ReadAllText)"
+				}
+			]
+		},
+		"itemReference": {
+			"comment": "%(Foo.Bar) or %(Metadata) references - separate so well-known metadata will only highlight in these variables",
+			"name": "variable.parameter.source.msbuild",
+			"begin": "\\%\\(",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.variable.begin.msbuild" }
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.variable.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "#wellKnownMetadataInline" },
+				{ "include": "#entity" },
+				{ "include": "#bareAmpersand" }
+			]
+		},
+		"wellKnownMetadataEmbedded": {
+			"comment": "Well-known metadata like @(VarName -> %(Metadata))",
+			"name": "support.constant.source.msbuild",
+			"match": "(\\%\\()(?:AccessedTime|CreatedTime|Directory|Extension|Filename|FullPath|Identity|ModifiedTime|RecursiveDir|RelativeDir|RootDir)(\\))",
+			"captures": {
+				"1": { "name": "punctuation.definition.variable.begin.msbuild" },
+				"2": { "name": "punctuation.definition.variable.begin.msbuild" }
+			}
+		},
+		"wellKnownMetadataInline": {
+			"comment": "Well-known metadata like %(ItemName.Metadata)",
+			"name": "support.constant.source.msbuild",
+			"match": "(\\.)(?:AccessedTime|CreatedTime|Directory|Extension|Filename|FullPath|Identity|ModifiedTime|RecursiveDir|RelativeDir|RootDir)\\b",
+			"captures": {
+				"1": { "name": "variable.other.dot-access.msbuild" }
+			}
+		},
+		"doubleQuotedString": {
+			"name": "string.quoted.single.msbuild",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.string.begin.msbuild" }
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.string.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "#reservedProperty" },
+				{ "include": "#variable" },
+				{ "include": "#itemReference" },
+				{ "include": "#entity" },
+				{ "include": "#operator" },
+				{ "include": "#predicate" },
+				{ "include": "#bareAmpersand" }
+			]
+		},
+		"singleQuotedString": {
+			"name": "string.quoted.single.msbuild",
+			"begin": "'",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.string.begin.msbuild" }
+			},
+			"end": "'",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.string.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "#reservedProperty" },
+				{ "include": "#variable" },
+				{ "include": "#itemReference" },
+				{ "include": "#entity" },
+				{ "include": "#operator" },
+				{ "include": "#predicate" },
+				{ "include": "#bareAmpersand" }
+			]
+		},
+		"entity": {
+			"name": "constant.character.entity.msbuild",
+			"match": "(&)([:a-zA-Z_][:a-zA-Z0-9_.-]*|#[0-9]+|#x[0-9a-fA-F]+)(;)",
+			"captures": {
+				"1": { "name": "punctuation.definition.constant.msbuild" },
+				"3": { "name": "punctuation.definition.constant.msbuild" }
+			}
+		},
+		"bareAmpersand": {
+			"match": "&",
+			"name": "invalid.illegal.bad-ampersand.msbuild"
+		},
+		"operator": {
+			"match": "(==|!=?|&gt;=?|&lt;=?|\\bAnd\\b|\\bOr\\b)",
+			"name": "keyword.operator.source.msbuild"
+		},
+		"predicate": {
+			"begin": "\\b(Exists|HasTrailingSlash)(\\()",
+			"beginCaptures": {
+				"1": { "name": "keyword.other.source.msbuild" },
+				"2": { "name": "punctuation.definition.parameter-list.begin.msbuild" }
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.parameter-list.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "$self" },
+				{ "include": "#singleQuotedString" },
+				{ "include": "#doubleQuotedString" },
+				{ "include": "#bareAmpersand" }
+			]
+		}
+	}
+}

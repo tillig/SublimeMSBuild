@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<Project InitialTargets="" DefaultTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<Target Name="">
+		$SELECTION$0
+	</Target>
+</Project>
+]]></content>
+	<scope>source.msbuild</scope>
+</snippet>
