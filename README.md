@@ -32,5 +32,8 @@ Basically this means either double-clicking on the package file (if you have ins
 ##License
 [MIT License](https://github.com/tillig/SublimeMSBuild/blob/master/LICENSE.md)
 
-##Additional Notes
-**Build system MSBuild.exe fallback**: Most Sublime Text build systems assume you have the build executable (`MSBuild.exe`) in your path. The system included here dynamically looks for `MSBuild.exe` in the .NET framework folders in the event you don't already have it in your path. The fallback order is `v4.0.30319 -> v3.5 -> v2.0.50727`. If you want to modify that fallback order, edit the `MSBuild.sublime-build` file in your `Data\Packages\MSBuild` folder.
+##Build System MSBuild.exe Fallback
+Most Sublime Text build systems assume you have the build executable (`MSBuild.exe`) in your path. The system included here dynamically looks for `MSBuild.exe` in the .NET framework folders in the event you don't already have it in your path. The fallback order is `v4.0.30319 -> v3.5 -> v2.0.50727`. If you want to modify that fallback order, edit the `MSBuild.sublime-build` file in your `Data\Packages\MSBuild` folder.
+
+##Package Developers
+If you want to modify the syntax highlighter or otherwise work on enhancing the package to suit your needs, it's recommended you get the [AAAPackageDev](https://github.com/SublimeText/AAAPackageDev) package for Sublime Text. This allows you to edit syntax files in `.JSON-tmLanguage` format and compile them into PList rather than manually editing PList directly. It also has several helpers/templates for adding functionality to Sublime Text packages.
