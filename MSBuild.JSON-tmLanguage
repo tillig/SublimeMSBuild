@@ -182,7 +182,7 @@
 		},
 		"variable": {
 			"comment": "Variables that are properties or lists, not item references",
-			"name": "variable.parameter.source.msbuild",
+			"name": "variable.parameter.property.source.msbuild",
 			"begin": "(?:\\$|\\@)\\(",
 			"beginCaptures": {
 				"0": { "name": "punctuation.definition.variable.begin.msbuild" }
@@ -230,7 +230,7 @@
 		},
 		"itemReference": {
 			"comment": "%(Foo.Bar) or %(Metadata) references - separate so well-known metadata will only highlight in these variables",
-			"name": "variable.parameter.source.msbuild",
+			"name": "variable.parameter.item.source.msbuild",
 			"begin": "\\%\\(",
 			"beginCaptures": {
 				"0": { "name": "punctuation.definition.variable.begin.msbuild" }
@@ -274,8 +274,8 @@
 			},
 			"patterns": [
 				{ "include": "#reservedProperty" },
-				{ "include": "#variable" },
 				{ "include": "#itemReference" },
+				{ "include": "#variable" },
 				{ "include": "#entity" },
 				{ "include": "#operator" },
 				{ "include": "#predicate" },
@@ -294,8 +294,8 @@
 			},
 			"patterns": [
 				{ "include": "#reservedProperty" },
-				{ "include": "#variable" },
 				{ "include": "#itemReference" },
+				{ "include": "#variable" },
 				{ "include": "#entity" },
 				{ "include": "#operator" },
 				{ "include": "#predicate" },

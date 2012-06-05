@@ -385,11 +385,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#variable</string>
+					<string>#itemReference</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#itemReference</string>
+					<string>#variable</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -454,7 +454,7 @@
 				</dict>
 			</dict>
 			<key>name</key>
-			<string>variable.parameter.source.msbuild</string>
+			<string>variable.parameter.item.source.msbuild</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -584,11 +584,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#variable</string>
+					<string>#itemReference</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#itemReference</string>
+					<string>#variable</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -676,7 +676,7 @@
 				</dict>
 			</dict>
 			<key>name</key>
-			<string>variable.parameter.source.msbuild</string>
+			<string>variable.parameter.property.source.msbuild</string>
 			<key>patterns</key>
 			<array>
 				<dict>
