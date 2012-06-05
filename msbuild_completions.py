@@ -1,12 +1,41 @@
 import sublime, sublime_plugin
 import re
 
-def match(rex, str):
-    m = rex.match(str)
-    if m:
-        return m.group(0)
-    else:
-        return None
+class CompleteOnParensListener(sublime_plugin.EventListener):
+    def on_selection_modified(self,view):
+        sel = view.sel()[0]
+        if not view.match_selector(sel.a, "source.msbuild"):
+            return
+        ch = view.substr(sublime.Region(sel.a-2, sel.a))
+        if ch == '$(':
+            view.run_command('auto_complete')
+
+# Provide completions that match just after typing a $() property reference
+class ReservedPropertyCompletions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within item references
+        if not view.match_selector(locations[0],
+                "source.msbuild"):
+            return []
+
+        pt = locations[0] - len(prefix) - 2
+        ch = view.substr(sublime.Region(pt, pt + 2))
+        if ch != '$(':
+            return []
+
+        return ([
+            ("MSBuildBinPath", "MSBuildBinPath"),
+            ("MSBuildExtensionsPath", "MSBuildExtensionsPath"),
+            ("MSBuildExtensionsPath32", "MSBuildExtensionsPath32"),
+            ("MSBuildExtensionsPath64", "MSBuildExtensionsPath64"),
+            ("MSBuildProjectDefaultTargets", "MSBuildProjectDefaultTargets"),
+            ("MSBuildProjectDirectory", "MSBuildProjectDirectory"),
+            ("MSBuildProjectExtension", "MSBuildProjectExtension"),
+            ("MSBuildProjectFile", "MSBuildProjectFile"),
+            ("MSBuildProjectFullPath", "MSBuildProjectFullPath"),
+            ("MSBuildProjectName", "MSBuildProjectName"),
+            ("MSBuildStartupDirectory", "MSBuildStartupDirectory")
+        ], sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
 # Provide completions that match just after typing an opening angle bracket
 class TagCompletions(sublime_plugin.EventListener):
@@ -124,5 +153,5 @@ class WellKnownItemMetadataCompletions(sublime_plugin.EventListener):
             (".ModifiedTime", ".ModifiedTime"),
             (".RecursiveDir", ".RecursiveDir"),
             (".RelativeDir", ".RelativeDir"),
-            (".RootDir", ".RootDir"),
+            (".RootDir", ".RootDir")
         ], sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
