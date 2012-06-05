@@ -2,6 +2,9 @@
 	// Enable auto-complete in additional non-standard areas
 	// for "IntelliSense" help.
 	"auto_complete_triggers": [
+		// Tags
+		{ "selector": "source.msbuild", "characters": "<" },
+		
 		// Well-known item metadata
 		{ "selector": "variable.parameter.item.source.msbuild", "characters": "." }
 	]
