@@ -1,7 +1,7 @@
 import sublime, sublime_plugin
 import re
 
-class CompleteOnParensListener(sublime_plugin.EventListener):
+class CompleteOnPropertyListener(sublime_plugin.EventListener):
     def on_selection_modified(self,view):
         sel = view.sel()[0]
         if not view.match_selector(sel.a, "source.msbuild"):
@@ -69,13 +69,14 @@ class TagCompletions(sublime_plugin.EventListener):
 
             ("Project", "Project DefaultTargets=\"$1\" InitialTargets=\"$2\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" ToolsVersion=\"4.0\">\n\t$3\n</Project>"),
 
-            ("AL", "AL\n\tAlgorithmID=\"$1\"\n\tBaseAddress=\"$2\"\n\tCompanyName=\"$3\"\n\tConfiguration=\"$4\"\n\tCopyright=\"$5\"\n\tCulture=\"$6\"\n\tDelaySign=\"$7\"\n\tDescription=\"$8\"\n\tEmbedResources=\"$9\"\n\tEvidenceFile=\"$10\"\n\tExitCode=\"$11\"\n\tFileVersion=\"$12\"\n\tFlags=\"$13\"\n\tGenerateFullPaths=\"$14\"\n\tKeyContainer=\"$15\"\n\tKeyFile=\"$16\"\n\tLinkResources=\"$17\"\n\tMainEntryPoint=\"$18\"\n\tOutputAssembly=\"$19\"\n\tPlatform=\"$20\"\n\tProductName=\"$21\"\n\tProductVersion=\"$22\"\n\tResponseFiles=\"$23\"\n\tSdkToolsPath=\"$24\"\n\tSourceModules=\"$25\"\n\tTargetType=\"$26\"\n\tTemplateFile=\"$27\"\n\tTimeout=\"$28\"\n\tTitle=\"$29\"\n\tToolPath=\"$30\"\n\tTrademark=\"$31\"\n\tVersion=\"$32\"\n\tWin32Icon=\"$33\"\n\tWin32Resource=\"$34\">\n\t<Output TaskParameter=\"OutputAssembly\" ItemName=\"\" />\n</AL>"),
-            ("AspNetCompiler", "AspNetCompiler></AspNetCompiler>"),
-            ("AssignCulture", "AssignCulture></AssignCulture>"),
-            ("AssignProjectConfiguration", "AssignProjectConfiguration></AssignProjectConfiguration>"),
-            ("AssignTargetPath", "AssignTargetPath></AssignTargetPath>"),
-            ("CallTarget", "CallTarget></CallTarget>"),
-            ("CombinePath", "CombinePath></CombinePath>"),
+            ("AL", "AL\n\tAlgorithmID=\"${1:CALG_SHA1}\"\n\tBaseAddress=\"$2\"\n\tCompanyName=\"${3:MyCompany}\"\n\tConfiguration=\"$4\"\n\tCopyright=\"$5\"\n\tCulture=\"${6:en-US}\"\n\tDelaySign=\"${7:false}\"\n\tDescription=\"$8\"\n\tEmbedResources=\"${9:@(ResourceList)}\"\n\tEvidenceFile=\"${10:Security.Evidence}\"\n\tFileVersion=\"${11:1.0.0.0}\"\n\tFlags=\"${12:0x0000}\"\n\tGenerateFullPaths=\"${13:false}\"\n\tKeyContainer=\"${14:KeyPair}\"\n\tKeyFile=\"${15:StrongNameKey.snk}\"\n\tLinkResources=\"${16:@(ResourceList)}\"\n\tMainEntryPoint=\"${17:App.Main}\"\n\tPlatform=\"${18:anycpu}\"\n\tProductName=\"${19:MyProduct}\"\n\tProductVersion=\"${20:1.0.0.0}\"\n\tResponseFiles=\"${21:@(ResponseFiles)}\"\n\tSdkToolsPath=\"${22:Path\\To\\Sdk}\"\n\tSourceModules=\"${23:@(Modules)}\"\n\tTargetType=\"${24:library}\"\n\tTemplateFile=\"${25:Template.dll}\"\n\tTimeout=\"$26\"\n\tTitle=\"${27:AssemblyTitle}\"\n\tToolPath=\"${28:Path\\To\\Al\\Folder}\"\n\tTrademark=\"$29\"\n\tVersion=\"${30:1.0.0.0}\"\n\tWin32Icon=\"${31:icon.ico}\"\n\tWin32Resource=\"${32:resources.res}\">\n\t<Output TaskParameter=\"OutputAssembly\" ItemName=\"$33\" />\n\t<Output TaskParameter=\"ExitCode\" PropertyName=\"$34\" />\n</AL>"),
+            ("AspNetCompiler", "AspNetCompiler\n\tAllowPartiallyTrustedCallers=\"${1:true}\"\n\tClean=\"${2:false}\"\n\tDebug=\"${3:false}\"\n\tDelaySign=\"${4:false}\"\n\tFixedNames=\"${5:false}\"\n\tForce=\"${6:false}\"\n\tKeyContainer=\"${7:KeyPair}\"\n\tKeyFile=\"${8:StrongNameKey.snk}\"\n\tMetabasePath=\"${9:LM/W3SVC/1/ROOT}\"\n\tPhysicalPath=\"${10:C:\\inetpub\\wwwroot}\"\n\tTargetFrameworkMoniker=\"${11:.NETFramework,Version=v4.0}\"\n\tTargetPath=\"${12:Destination\\Folder}\"\n\tUpdateable=\"${13:false}\"\n\tVirtualPath=\"${14:/Virtual/App/Path}\" />"),
+            ("AssignCulture", "AssignCulture Files=\"${1:@(Files)}\">\n\t<Output TaskParameter=\"AssignedFiles\" ItemName=\"$2\" />\n\t<Output TaskParameter=\"AssignedFilesWithCulture\" ItemName=\"$3\" />\n\t<Output TaskParameter=\"AssignedFilesWithNoCulture\" ItemName=\"$4\" />\n\t<Output TaskParameter=\"CultureNeutralAssignedFiles\" ItemName=\"$5\" />\n</AssignCulture>"),
+            ("AssignProjectConfiguration", "AssignProjectConfiguration\n\tCurrentProjectConfiguration=\"$1\"\n\tCurrentProjectPlatform=\"$2\"\n\tDefaultToVcxPlatformMapping=\"$3\"\n\tOnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration=\"$4\"\n\tOutputType=\"$5\"\n\tResolveConfigurationPlatformUsingMappings=\"$6\"\n\tShouldUnsetParentConfigurationAndPlatform=\"$7\"\n\tSolutionConfigurationContents=\"$8\"\n\tVcxToDefaultPlatformMapping=\"$9\">\n\t<Output TaskParameter=\"AssignedProjects\" ItemName=\"$10\" />\n\t<Output TaskParameter=\"UnassignedProjects\" ItemName=\"$11\" />\n</AssignProjectConfiguration>"),
+            ("AssignTargetPath", "AssignTargetPath RootFolder=\"$1\" Files=\"${2:@(Files)}\">\n\t<Output TaskParameter=\"AssignedFiles\" ItemName=\"$3\" />\n</AssignTargetPath>"),
+            ("CallTarget [Simple]", "CallTarget Targets=\"$1\" />"),
+            ("CallTarget [Full]", "CallTarget Targets=\"$1\" RunEachTargetSeparately=\"${2:false}\" UseResultsCache=\"${3:false}\">\n\t<Output TaskParameter=\"TargetOutputs\" ItemName=\"$4\" />\n</CallTarget>"),
+            ("CombinePath", "CombinePath BasePath=\"$1\" Paths=\"${2:@(Paths)}\">\n\t<Output TaskParameter=\"CombinedPaths\" ItemName=\"$3\" />\n</CombinePath>"),
             ("ConvertToAbsolutePath", "ConvertToAbsolutePath></ConvertToAbsolutePath>"),
             ("Copy", "Copy></Copy>"),
             ("CreateCSharpManifestResourceName", "CreateCSharpManifestResourceName></CreateCSharpManifestResourceName>"),
