@@ -23,6 +23,14 @@
 	* Comment blocks
 * **Snippets**:
 	* Empty MSBuild Script
+	* Comment blocks [trigger = `c` + tab]
+	* Self-closing/simple tags [trigger = `>` + tab]
+	* Content/end-tag tags [trigger = `<` + tab]
+* **Autocompletion**:
+	* Standard/default tasks (e.g., `CallTarget`, `CombinePath`, `MakeDir`)
+	* Project file items (e.g., `Target`, `Choose`, `Import`)
+	* Well-known item metadata references (e.g., `%(Item.FullPath)`)
+	* Reserved properties (e.g., `$(MSBuildProjectDirectory)`)
 
 ##Installation
 Download MSBuild.sublime-package and install it [using the Sublime Text package installation instructions](http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages).
