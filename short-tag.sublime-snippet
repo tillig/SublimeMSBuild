@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[<${1:TaskName} />]]></content>
+    <tabTrigger>&gt;</tabTrigger>
+    <scope>source.msbuild</scope>
+    <description>Short Tag</description>
+</snippet>

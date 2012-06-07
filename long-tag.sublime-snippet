@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[<${1:TaskName}>${2:$SELECTION}</${1/([^ ]+).*/$1/}>]]></content>
+    <tabTrigger>&lt;</tabTrigger>
+    <scope>source.msbuild</scope>
+    <description>Long Tag</description>
+</snippet>
