@@ -52,7 +52,7 @@ class TagCompletions(sublime_plugin.EventListener):
 
         return ([
             ("Target", "Target Name=\"$1\" DependsOnTargets=\"$2\">\n\t$3\n</Target>"),
-            ("  OnError", "OnError ExecuteTargets=\"$1\" />"),
+            ("OnError", "OnError ExecuteTargets=\"$1\" />"),
             
             ("ItemGroup", "ItemGroup>\n\t$1\n</ItemGroup>"),
 
@@ -61,11 +61,11 @@ class TagCompletions(sublime_plugin.EventListener):
             ("UsingTask", "UsingTask TaskName=\"$1\" AssemblyName=\"$2\" />"),
 
             ("ImportGroup", "ImportGroup Condition=\"$1\">\n\t<Import Project=\"$2\" />\n</ImportGroup>"),
-            ("  Import", "Import Project=\"$1\" />"),
+            ("Import", "Import Project=\"$1\" />"),
 
             ("Choose", "Choose>\n\t<When Condition=\"$1\">$2</When>\n\t<Otherwise>$3</Otherwise>\n</Choose>"),
-            ("  When", "When Condition=\"$1\">$2</When>"),
-            ("  Otherwise", "Otherwise>$1</Otherwise>"),
+            ("When", "When Condition=\"$1\">$2</When>"),
+            ("Otherwise", "Otherwise>$1</Otherwise>"),
 
             ("Project", "Project DefaultTargets=\"$1\" InitialTargets=\"$2\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" ToolsVersion=\"4.0\">\n\t$3\n</Project>"),
 
@@ -86,14 +86,17 @@ class TagCompletions(sublime_plugin.EventListener):
             ("CreateProperty", "CreateProperty Value=\"$1\">\n\t<Output TaskParameter=\"Value\" PropertyName=\"$2\" />\n</CreateProperty>"),
             ("CreateVisualBasicManifestResourceName", "CreateVisualBasicManifestResourceName ResourceFiles=\"$1\" RootNamespace=\"$2\" PrependCultureAsDirectory=\"${3:true}\">\n\t<Output TaskParameter=\"ManifestResourceNames\" ItemName=\"$4\" />\n\t<Output TaskParameter=\"ResourceFilesWithManifestResourceNames\" ItemName=\"$5\" />\n</CreateVisualBasicManifestResourceName>"),
             ("Csc", "Csc\n\tAdditionalLibPaths=\"${1:@(LibPaths)}\"\n\tAddModules=\"$2\"\n\tAllowUnsafeBlocks=\"${3:false}\"\n\tApplicationConfiguration=\"${4:App.config}\"\n\tBaseAddress=\"$5\"\n\tCheckForOverflowUnderflow=\"${6:false}\"\n\tCodePage=\"$7\"\n\tDebugType=\"${8:full}\"\n\tDefineConstants=\"${9:CODE_ANALYSIS}\"\n\tDelaySign=\"${10:false}\"\n\tDisabledWarnings=\"$11\"\n\tDocumentationFile=\"${12:MyProject.xml}\"\n\tEmitDebugInformation=\"${13:true}\"\n\tErrorReport=\"${14:prompt}\"\n\tFileAlignment=\"$15\"\n\tGenerateFullPaths=\"${16:false}\"\n\tKeyContainer=\"${17:KeyPair}\"\n\tKeyFile=\"${18:StrongNameKey.snk}\"\n\tLangVersion=\"${19:default}\"\n\tLinkResources=\"${20:@(ResourceList)}\"\n\tMainEntryPoint=\"${21:App.Main}\"\n\tModuleAssemblyName=\"$22\"\n\tNoConfig=\"${23:false}\"\n\tNoLogo=\"${24:true}\"\n\tNoStandardLib=\"${25:false}\"\n\tNoWin32Manifest=\"${26:false}\"\n\tOptimize=\"${27:true}\"\n\tOutputAssembly=\"${28:MyProject.dll}\"\n\tPdbFile=\"${29:MyProject.pdb}\"\n\tPlatform=\"${30:anycpu}\"\n\tReferences=\"${31:@(ReferenceList)}\"\n\tResources=\"${32:@(ResourceList)}\"\n\tResponseFiles=\"$33\"\n\tSources=\"${34:@(SourceList)}\"\n\tTargetType=\"${35:library}\"\n\tTreatWarningsAsErrors=\"${36:false}\"\n\tUtf8Output=\"${37:false}\"\n\tWarningLevel=\"${38:4}\"\n\tWarningsAsErrors=\"$39\"\n\tWarningsNotAsErrors=\"$40\"\n\tWin32Icon=\"${41:icon.ico}\"\n\tWin32Manifest=\"${42:file.manifest}\"\n\tWin32Resource=\"${43:resources.res}\">\n\t<Output TaskParameter=\"OutputAssembly\" ItemName=\"$44\" />\n</Csc>"),
-            ("Delete", "Delete></Delete>"),
-            ("Error", "Error></Error>"),
-            ("Exec", "Exec></Exec>"),
-            ("FindAppConfigFile", "FindAppConfigFile></FindAppConfigFile>"),
-            ("FindInList", "FindInList></FindInList>"),
-            ("FindUnderPath", "FindUnderPath></FindUnderPath>"),
-            ("FormatUrl", "FormatUrl></FormatUrl>"),
-            ("FormatVersion", "FormatVersion></FormatVersion>"),
+            ("Delete [Simple]", "Delete Files=\"${1:@(Files)}\" />"),
+            ("Delete [Full]", "Delete Files=\"${1:@(Files)}\" TreatErrorsAsWarnings=\"${2:false}\">\n\t<Output TaskParameter=\"DeletedFiles\" ItemName=\"$3\" />\n</Delete>"),
+            ("Error [Simple]", "Error Text=\"$1\" />"),
+            ("Error [Full]", "Error Code=\"${1:1}\" File=\"$2\" HelpKeyword=\"$3\" Text=\"$4\" />"),
+            ("Exec [Simple]", "Exec Command=\"$1\" WorkingDirectory=\"$2\" />"),
+            ("Exec [Full]", "Exec\n\tCommand=\"$1\"\n\tCustomErrorRegularExpression=\"$2\"\n\tCustomWarningRegularExpression=\"$3\"\n\tIgnoreExitCode=\"${4:false}\"\n\tIgnoreStandardErrorWanringFormat=\"${5:false}\"\n\tStdErrEncoding=\"$6\"\n\tStdOutEncoding=\"$7\"\n\tWorkingDirectory=\"$8\">\n\t<Output TaskParameter=\"ExitCode\" PropertyName=\"$9\" />\n\t<Output TaskParameter=\"Outputs\" ItemName=\"$10\" />\n</Exec>"),
+            ("FindAppConfigFile", "FindAppConfigFile\n\tPrimaryList=\"${1:@(Primary)}\"\n\tSecondaryList=\"${2:@(Secondary)}\"\n\tTargetPath=\"$3\">\n\t<Output TaskParameter=\"AppConfigFile\" ItemName=\"$4\" />\n</FindAppConfigFile>"),
+            ("FindInList", "FindInList\n\tCaseSensitive=\"${1:true}\"\n\tFindLastMatch=\"${2:false}\"\n\tItemSpecToFind=\"$3\"\n\tList=\"${4:@(Files)}\"\n\tMatchFileNameOnly=\"${5:true}\">\n\t<Output TaskParameter=\"ItemFound\" ItemName=\"$6\" />\n</FindInList>"),
+            ("FindUnderPath", "FindUnderPath Files=\"${1:@(Files)}\" Path=\"$2\" UpdateToAbsolutePaths=\"${3:false}\">\n\t<Output TaskParameter=\"InPath\" ItemName=\"$4\" />\n\t<Output TaskParameter=\"OutOfPath\" ItemName=\"$5\" />\n</FindUnderPath>"),
+            ("FormatUrl", "FormatUrl InputUrl=\"$1\">\n\t<Output TaskParameter=\"OutputUrl\" PropertyName=\"$2\" />\n</FormatUrl>"),
+            ("FormatVersion", "FormatVersion FormatType=\"${1:Version}\" Version=\"$2\" Revision=\"$3\">\n\t<Output TaskParameter=\"OutputVersion\" PropertyName=\"$4\" />\n</FormatVersion>"),
             ("GenerateApplicationManifest", "GenerateApplicationManifest></GenerateApplicationManifest>"),
             ("GenerateDeploymentManifest", "GenerateDeploymentManifest></GenerateDeploymentManifest>"),
             ("GenerateResource", "GenerateResource></GenerateResource>"),
