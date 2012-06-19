@@ -1,9 +1,62 @@
 <snippet>
 	<content><![CDATA[
 <?xml version="1.0" encoding="utf-8"?>
-<Project InitialTargets="" DefaultTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-	<Target Name="">
-		$SELECTION$0
+<Project InitialTargets="" DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<!--
+		Debug == msbuild default.proj
+		Release == msbuild default.proj /p:BuildConfiguration=Release
+	-->
+	<PropertyGroup>
+		<BuildConfiguration Condition="'\$(BuildConfiguration)'==''">Debug</BuildConfiguration>
+		<BuildOuptutDirectory>\$(MSBuildProjectDirectory)\build_output</BuildOuptutDirectory>
+		<BuildBinDirectory>\$(BuildOuptutDirectory)\bin</BuildBinDirectory>
+		<BuildDocDirectory>\$(BuildOuptutDirectory)\doc</BuildDocDirectory>
+		<BuildDocTempDirectory>\$(BuildOuptutDirectory)\temp</BuildDocTempDirectory>
+		<BuildLogDirectory>\$(BuildOuptutDirectory)\log</BuildLogDirectory>
+		<BuildPackageDirectory>\$(BuildOuptutDirectory)\package</BuildPackageDirectory>
+	</PropertyGroup>
+	<ItemGroup>
+		<CleanFolders Include="\$(BuildOuptutDirectory)"/>
+		<CleanFolders Include="TestResults"/>
+	</ItemGroup>
+	<Target Name="All">
+		<CallTarget Targets="Clean;Compile;Test;Analyze" />
+		<CallTarget Targets="Doc;Package" Condition="'\$(Configuration)' == 'Release'"/>
+		<Message Text="Build complete."/>
+	</Target>
+	<Target Name="Analyze">
+		<!-- Analyze runs post-build analysis like FxCop and NDepend. -->
+	</Target>
+	<Target Name="Clean">
+		<!-- Clean removes all build artifacts to prepare for a new build. -->
+		<RemoveDir Directories="@(CleanFolders)" />
+	</Target>
+	<Target Name="Compile">
+		<!-- Compile builds all the projects/solutions and copies the output to prepare for analysis/packaging. -->
+
+		<!-- NuGet package restore for solution packages. -->
+		<MSBuild Projects="\$(MSBuildProjectDirectory)\.nuget\NuGet.targets" Targets="RestorePackages" />
+
+		<!-- Build the solution. -->
+		<MSBuild Projects="MySolution.sln" Targets="Build" Properties="Configuration=\$(BuildConfiguration)" />
+	</Target>
+	<Target Name="Doc">
+		<!-- Doc compiles any XML API docs into a distributable help package. -->
+	</Target>
+	<Target Name="Package">
+		<!-- Package builds the zip files, NuGet packages, and MSI files for the project. -->
+	</Target>
+	<Target Name="Test">
+		<!-- Test runs the unit testing/coverage for the project. -->
+		<ItemGroup>
+			<!-- Locate the NUnit console tool from the solution-level NuGet package. -->
+			<NUnitRunner Include="\$(MSBuildProjectDirectory)\packages\NUnit.Runners.*\tools\nunit-console.exe" />
+		</ItemGroup>
+		<PropertyGroup>
+			<TestResultsFile>\$(BuildLogDirectory)TestResults.Unit.xml</TestResultsFile>
+			<TestAssembly>\$(MSBuildProjectDirectory)\CommandPromptHereGenTests\bin\\\$(BuildConfiguration)\CommandPromptHereGenTests.dll</TestAssembly>
+		</PropertyGroup>
+		<Exec Command="&quot;%(NUnitRunner.FullPath)&quot; &quot;\$(TestAssembly)&quot; /xml:\$(TestResultsFile)" />
 	</Target>
 </Project>
 ]]></content>
