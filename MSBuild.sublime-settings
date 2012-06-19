@@ -1,4 +1,8 @@
 {
+	// Version for the MSBuild package. Used in reporting issues
+	// and troubleshooting.
+	"msbuild_package_version": "1.0",
+
 	// Enable auto-complete in additional non-standard areas
 	// for "IntelliSense" help.
 	"auto_complete_triggers": [
