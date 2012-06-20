@@ -4,14 +4,14 @@
 ##Overview
 [Sublime Text 2](http://www.sublimetext.com/) is a highly-customizable text editor that allows you to add functionality through use of "packages." This package adds the following functionality for MSBuild:
 
-* **MSBuild file extension handling**: Recognizes the following extensions as MSBuild...
+* **MSBuild file extension handling**:
 	* .proj
 	* .targets
 	* .msbuild
 	* .csproj
 	* .vbproj
 * **Build system**: Execute the currently loaded MSBuild script and capture the results in the output pane.
-* **Syntax highlighting**: Support for properly highlighting...
+* **Syntax highlighting**:
 	* MSBuild keywords and flow-control elements
 	* Standard MSBuild tasks
 	* C#/VB special project item elements
@@ -22,15 +22,17 @@
 	* Framework support functions
 	* Comment blocks
 * **Snippets**:
-	* Empty MSBuild Script
+	* New MSBuild Script
 	* Comment blocks [trigger = `c` + tab]
 	* Self-closing/simple tags [trigger = `>` + tab]
 	* Content/end-tag tags [trigger = `<` + tab]
 * **Autocompletion**:
 	* Standard/default tasks (e.g., `CallTarget`, `CombinePath`, `MakeDir`)
-	* Project file items (e.g., `Target`, `Choose`, `Import`)
+	* Project file entities (e.g., `Target`, `Choose`, `Import`)
+	* Common item definitions (e.g., `Compile`, `Reference`, `EmbeddedResource`)
 	* Well-known item metadata references (e.g., `%(Item.FullPath)`)
 	* Reserved properties (e.g., `$(MSBuildProjectDirectory)`)
+	* [MSBuild Community Tasks](https://github.com/loresoft/msbuildtasks) (if the `MSBuild.Community.Tasks.Targets` file is imported)
 
 ##Installation
 Download MSBuild.sublime-package and install it [using the Sublime Text package installation instructions](http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages).

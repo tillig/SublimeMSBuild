@@ -1,6 +1,8 @@
 import sublime, sublime_plugin
 import re
 
+# Enable autocomplete to be fired when $( is typed
+# This is required because of the balanced-parentheses key binding
 class CompleteOnPropertyListener(sublime_plugin.EventListener):
     def on_selection_modified(self,view):
         sel = view.sel()[0]
@@ -13,7 +15,7 @@ class CompleteOnPropertyListener(sublime_plugin.EventListener):
 # Provide completions that match just after typing a $() property reference
 class ReservedPropertyCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
-        # Only trigger within item references
+        # Only trigger within MSBuild if it's a property
         if not view.match_selector(locations[0],
                 "source.msbuild"):
             return []
@@ -40,7 +42,7 @@ class ReservedPropertyCompletions(sublime_plugin.EventListener):
 # Provide completions that match just after typing an opening angle bracket
 class TagCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
-        # Only trigger within MSBuild
+        # Only trigger within MSBuild on tag start
         if not view.match_selector(locations[0],
                 "source.msbuild"):
             return []
@@ -50,7 +52,8 @@ class TagCompletions(sublime_plugin.EventListener):
         if ch != '<':
             return []
 
-        return ([
+        # completions initially contains only MSBuild standard tasks/items
+        completions = [
             # MSBuild Project Schema: http://msdn.microsoft.com/en-us/library/5dy88c2e
             ("Target", "Target Name=\"$1\" DependsOnTargets=\"$2\">\n\t$3\n</Target>"),
             ("OnError", "OnError ExecuteTargets=\"$1\" />"),
@@ -158,12 +161,27 @@ class TagCompletions(sublime_plugin.EventListener):
             ("XmlPeek", "XmlPeek\n\tNamespaces=\"${1:&lt;Namespace Prefix='tmp' Uri='http://tempuri.org' /&gt;}\"\n\tQuery=\"${2:/tmp:Node1/tmp:Node2/text()}\"\n\tXmlContent=\"$3\"\n\tXmlInputPath=\"${4:input.xml}\">\n\t<Output TaskParameter=\"Result\" ItemName=\"$5\" />\n</XmlPeek>"),
             ("XmlPoke", "XmlPoke\n\tNamespaces=\"${1:&lt;Namespace Prefix='tmp' Uri='http://tempuri.org' /&gt;}\"\n\tQuery=\"${2:/tmp:Node1/tmp:Node2/@attrib}\"\n\tValue=\"$3\"\n\tXmlInputPath=\"${4:input.xml}\" />"),
             ("XslTransformation", "XslTransformation\n\tOutputPaths=\"${1:@(OutputPath)}\"\n\tParameters=\"$2\"\n\tXmlContent=\"$3\"\n\tXmlInputPaths=\"${4:@(InputXmlFile)}\"\n\tXslCompiledDllPath=\"${5:CompiledXslt.dll}\"\n\tXslContent=\"$6\"\n\tXslInputPath=\"${7:input.xslt}\" />")
-        ], sublime.INHIBIT_WORD_COMPLETIONS)
+        ]
+
+        # If MSBuild Community Tasks isn't imported, we're done.
+        msbimport = view.find("((?i)<import\\s+project\\s*=\\s*\"([^\"]*msbuild.community.tasks.targets)\"[^>]*>)", 1)
+        if msbimport is None:
+            completions = sorted(completions, key=lambda completion: completion[0])
+            return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
+
+        # MSBuild Community Tasks IS imported, so add those completions, too.
+        # https://github.com/loresoft/msbuildtasks
+        completions.extend([
+            ("Zip [MSBCT Simple]", "Zip\n\tFiles=\"${1:@(Files)}\"\n\tFlatten=\"${2:False}\"\n\tWorkingDirectory=\"$3\"\n\tZipFileName=\"$4\" />"),
+            ("Zip [MSBCT Full]", "Zip\n\tComment=\"$1\"\n\tFiles=\"${2:@(Files)}\"\n\tEncryption=\"${3:None}\"\n\tFlatten=\"${4:False}\"\n\tPassword=\"$5\"\n\tWorkingDirectory=\"$6\"\n\tZipFileName=\"$7\"\n\tZipLevel=\"${8:6}\" />")
+        ])
+        completions = sorted(completions, key=lambda completion: completion[0])
+        return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
 
 # Provide completions that match just after typing a . inside a %() item reference
 class WellKnownItemMetadataCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
-        # Only trigger within item references
+        # Only trigger within MSBuild item references
         if not view.match_selector(locations[0],
                 "variable.parameter.item.source.msbuild"):
             return []
