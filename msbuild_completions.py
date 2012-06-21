@@ -37,7 +37,7 @@ class ReservedPropertyCompletions(sublime_plugin.EventListener):
             ("MSBuildProjectFullPath", "MSBuildProjectFullPath"),
             ("MSBuildProjectName", "MSBuildProjectName"),
             ("MSBuildStartupDirectory", "MSBuildStartupDirectory")
-        ], sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        ], sublime.INHIBIT_WORD_COMPLETIONS)
 
 # Provide completions that match just after typing an opening angle bracket
 class TagCompletions(sublime_plugin.EventListener):
@@ -250,10 +250,15 @@ class TagCompletions(sublime_plugin.EventListener):
             ("VssHistory [MSBCT]", "VssHistory></VssHistory>"),
             ("VssLabel [MSBCT]", "VssLabel></VssLabel>"),
             ("VssUndoCheckout [MSBCT]", "VssUndoCheckout></VssUndoCheckout>"),
-            ("WebDirectoryCreate [MSBCT]", "WebDirectoryCreate></WebDirectoryCreate>"),
-            ("WebDirectoryDelete [MSBCT]", "WebDirectoryDelete></WebDirectoryDelete>"),
-            ("WebDirectoryScriptMap [MSBCT]", "WebDirectoryScriptMap></WebDirectoryScriptMap>"),
-            ("WebDirectorySetting [MSBCT]", "WebDirectorySetting></WebDirectorySetting>"),
+            ("WebDirectoryCreate [MSBCT Simple]", "WebDirectoryCreate VirtualDirectoryName=\"$1\" VirtualDirectoryPhysicalPath=\"$2\" />"),
+            ("WebDirectoryCreate [MSBCT Full]", "WebDirectoryCreate\n\tVirtualDirectoryName=\"$1\"\n\tVirtualDirectoryPhysicalPath=\"$2\"\n\tAccessExecute=\"${3:False}\"\n\tAccessNoRemoteExecute=\"${4:False}\"\n\tAccessNoRemoteRead=\"${5:False}\"\n\tAccessNoRemoteScript=\"${6:False}\"\n\tAccessNoRemoteWrite=\"${7:False}\"\n\tAccessRead=\"${8:True}\"\n\tAccessScript=\"${9:True}\"\n\tAccessSource=\"${10:False}\"\n\tAccessSsl=\"${11:False}\"\n\tAccessSsl128=\"${12:False}\"\n\tAccessSslMapCert=\"${13:False}\"\n\tAccessSslNegotiateCert=\"${14:False}\"\n\tAccessSslRequireCert=\"${15:False}\"\n\tAccessWrite=\"${16:False}\"\n\tAnonymousPasswordSync=\"${17:True}\"\n\tAppAllowClientDebug=\"${18:False}\"\n\tAppAllowDebugging=\"${19:False}\"\n\tAspAllowSessionState=\"${20:True}\"\n\tAspBufferingOn=\"${21:True}\"\n\tAspEnableApplicationRestart=\"${22:True}\"\n\tAspEnableAspHtmlFallback=\"${23:False}\"\n\tAspEnableChunkedEncoding=\"${24:False}\"\n\tAspEnableParentPaths=\"${25:True}\"\n\tAspEnableTypelibCache=\"${26:True}\"\n\tAspErrorsToNTLog=\"${27:False}\"\n\tAspExceptionCatchEnable=\"${28:True}\"\n\tAspLogErrorRequests=\"${29:True}\"\n\tAspScriptErrorMessage=\"${30:An error occurred on the server when processing the URL.  Please contact the system administrator.}\"\n\tAspScriptErrorSentToBrowser=\"${31:True}\"\n\tAspTrackThreadingModel=\"${32:False}\"\n\tAuthAnonymous=\"${33:True}\"\n\tAuthBasic=\"${34:False}\"\n\tAuthNtlm=\"${35:False}\"\n\tAuthPersistSingleRequest=\"${36:False}\"\n\tAuthPersistSingleRequestAlwaysIfProxy=\"${37:False}\"\n\tAuthPersistSingleRequestIfProxy=\"${38:True}\"\n\tCacheControlNoCache=\"${39:False}\"\n\tCacheIsapi=\"${40:True}\"\n\tContentIndexed=\"${41:True}\"\n\tCpuAppEnabled=\"${42:True}\"\n\tCpuCgiEnabled=\"${43:True}\"\n\tCreateCgiWithNewConsole=\"${44:False}\"\n\tCreateProcessAsUser=\"${45:True}\"\n\tDefaultDoc=\"${46:Default.htm, Default.asp, index.htm, iisstart.asp, Default.aspx}\"\n\tDirBrowseShowDate=\"${47:True}\"\n\tDirBrowseShowExtension=\"${48:True}\"\n\tDirBrowseShowLongDate=\"${49:True}\"\n\tDirBrowseShowSize=\"${50:True}\"\n\tDirBrowseShowTime=\"${51:True}\"\n\tDontLog=\"${52:False}\"\n\tEnableDefaultDoc=\"${53:True}\"\n\tEnableDirBrowsing=\"${54:False}\"\n\tEnableDocFooter=\"${55:False}\"\n\tEnableReverseDns=\"${56:False}\"\n\tSsiExecDisable=\"${57:False}\"\n\tUncAuthenticationPassthrough=\"${58:False}\"\n\tHostHeaderName=\"$59\"\n\tPassword=\"$60\"\n\tServerName=\"${61:localhost}\"\n\tServerPort=\"${62:80}\"\n\tUsername=\"$63\" />"),
+            ("WebDirectoryDelete [MSBCT Simple]", "WebDirectoryDelete VirtualDirectoryName=\"$1\" />"),
+            ("WebDirectoryDelete [MSBCT Full]", "WebDirectoryDelete\n\tVirtualDirectoryName=\"$1\"\n\tHostHeaderName=\"$2\"\n\tPassword=\"$3\"\n\tServerName=\"${4:localhost}\"\n\tServerPort=\"${5:80}\"\n\tUsername=\"$6\" />"),
+            ("WebDirectoryScriptMap [MSBCT Simple]", "WebDirectoryScriptMap\n\tEnableScriptEngine=\"${1:False}\"\n\tExecutablePath=\"$2\"\n\tExtension=\"$3\"\n\tMapToAspNet=\"${4:False}\"\n\tVerbs=\"$5\"\n\tVerifyFileExists=\"${6:False}\"\n\tVirtualDirectoryName=\"$7\" />"),
+            ("WebDirectoryScriptMap [MSBCT Full]", "WebDirectoryScriptMap\n\tEnableScriptEngine=\"${1:False}\"\n\tExecutablePath=\"$2\"\n\tExtension=\"$3\"\n\tMapToAspNet=\"${4:False}\"\n\tVerbs=\"$5\"\n\tVerifyFileExists=\"${6:False}\"\n\tVirtualDirectoryName=\"$7\"\n\tHostHeaderName=\"$8\"\n\tPassword=\"$9\"\n\tServerName=\"${10:localhost}\"\n\tServerPort=\"${11:80}\"\n\tUsername=\"$12\" />"),
+            ("WebDirectorySetting [MSBCT Get]", "WebDirectorySetting VirtualDirectoryName=\"$1\" SettingName=\"$2\">\n\t<Output TaskParameter=\"SettingValue\" PropertyName=\"$3\" />\n</WebDirectorySetting>"),
+            ("WebDirectorySetting [MSBCT Set]", "WebDirectorySetting\n\tVirtualDirectoryName=\"$1\"\n\tSettingName=\"$2\"\n\tSettingValue=\"$3\" />"),
+            ("WebDirectorySetting [MSBCT Full]", "WebDirectorySetting\n\tVirtualDirectoryName=\"$1\"\n\tSettingName=\"$2\"\n\tSettingValue=\"$3\"\n\tHostHeaderName=\"$4\"\n\tPassword=\"$5\"\n\tServerName=\"${6:localhost}\"\n\tServerPort=\"${7:80}\"\n\tUsername=\"$8\">\n\t<Output TaskParameter=\"SettingValue\" PropertyName=\"$9\" />\n</WebDirectorySetting>"),
             ("WebDownload [MSBCT]", "WebDownload></WebDownload>"),
             ("XmlMassUpdate [MSBCT]", "XmlMassUpdate></XmlMassUpdate>"),
             ("XmlQuery [MSBCT]", "XmlQuery></XmlQuery>"),
@@ -292,4 +297,4 @@ class WellKnownItemMetadataCompletions(sublime_plugin.EventListener):
             (".RecursiveDir", ".RecursiveDir"),
             (".RelativeDir", ".RelativeDir"),
             (".RootDir", ".RootDir")
-        ], sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        ], sublime.INHIBIT_WORD_COMPLETIONS)
