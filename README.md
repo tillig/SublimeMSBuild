@@ -33,6 +33,7 @@
 	* Well-known item metadata references (e.g., `%(Item.FullPath)`)
 	* Reserved properties (e.g., `$(MSBuildProjectDirectory)`)
 	* [MSBuild Community Tasks](https://github.com/loresoft/msbuildtasks) (if the `MSBuild.Community.Tasks.Targets` file is imported)
+	* C#/VB special project item elements (e.g., `Reference`, `Compile`)
 	* Supported framework method calls (e.g., `$([System.DateTime]::Now)`)
 
 ##Installation
