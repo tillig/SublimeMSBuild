@@ -3,6 +3,7 @@
 ## Sublime Text
 #################
 *.tmLanguage.cache
+*.sublime-package
 
 #################
 ## Eclipse
