@@ -196,6 +196,7 @@
 				{ "include": "#reservedProperty" },
 				{ "include": "#wellKnownMetadataEmbedded" },
 				{ "include": "#itemReference" },
+				{ "include": "#nestedParens" },
 				{ "include": "#entity" },
 				{ "include": "#bareAmpersand" },
 				{
@@ -226,6 +227,26 @@
 			},
 			"patterns": [
 				{ "include": "#wellKnownMetadataInline" },
+				{ "include": "#entity" },
+				{ "include": "#bareAmpersand" }
+			]
+		},
+		"nestedParens": {
+			"comment": "Handles nested parentheses in a property.",
+			"name": "variable.parameter.property.source.msbuild",
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.variable.begin.msbuild" }
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.variable.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "$self" },
+				{ "include": "#variable" },
+				{ "include": "#wellKnownMetadataEmbedded" },
+				{ "include": "#itemReference" },
 				{ "include": "#entity" },
 				{ "include": "#bareAmpersand" }
 			]

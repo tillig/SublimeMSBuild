@@ -33,6 +33,7 @@
 	* Well-known item metadata references (e.g., `%(Item.FullPath)`)
 	* Reserved properties (e.g., `$(MSBuildProjectDirectory)`)
 	* [MSBuild Community Tasks](https://github.com/loresoft/msbuildtasks) (if the `MSBuild.Community.Tasks.Targets` file is imported)
+	* Supported framework method calls (e.g., `$([System.DateTime]::Now)`)
 
 ##Installation
 Download MSBuild.sublime-package and install it [using the Sublime Text package installation instructions](http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages).

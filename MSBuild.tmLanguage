@@ -471,6 +471,60 @@
 				</dict>
 			</array>
 		</dict>
+		<key>nestedParens</key>
+		<dict>
+			<key>begin</key>
+			<string>\(</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.variable.begin.msbuild</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Handles nested parentheses in a property.</string>
+			<key>end</key>
+			<string>\)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.variable.end.msbuild</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>variable.parameter.property.source.msbuild</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>$self</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#wellKnownMetadataEmbedded</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#itemReference</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#entity</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#bareAmpersand</string>
+				</dict>
+			</array>
+		</dict>
 		<key>operator</key>
 		<dict>
 			<key>match</key>
@@ -694,6 +748,10 @@
 				<dict>
 					<key>include</key>
 					<string>#itemReference</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#nestedParens</string>
 				</dict>
 				<dict>
 					<key>include</key>
