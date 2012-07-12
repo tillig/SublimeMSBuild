@@ -719,31 +719,7 @@
 					<key>comment</key>
 					<string>Inline framework static class functions supported</string>
 					<key>match</key>
-					<string>\[(?:(?:Microsoft\.Build\.Utilities\.ToolLocationHelper)|(?:System\.(?:Byte|Char|Convert|DateTime|Decimal|Double|Enum|Guid|U?Int(?:16|32|64)|IO\.Path|Math|SByte|Single|String(?:Comparer)?|TimeSpan|Text\.RegularExpressions\.Regex)))\]::[_a-zA-Z0-9]+</string>
-					<key>name</key>
-					<string>support.function.source.msbuild</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Inline framework specific static methods supported: System.Environment</string>
-					<key>match</key>
-					<string>\[System\.Environment\]::(?:CommandLine|ExpandEnvironmentVariables|GetEnvironmentVariables?|GetFolderPath|GetLogicalDrives)</string>
-					<key>name</key>
-					<string>support.function.source.msbuild</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Inline framework specific static methods supported: System.IO.Directory</string>
-					<key>match</key>
-					<string>\[System\.IO\.Directory\]::(?:GetDirectories|GetFiles|GetLastAccessTime|GetLastWriteTime|GetParent)</string>
-					<key>name</key>
-					<string>support.function.source.msbuild</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Inline framework specific static methods supported: System.IO.File</string>
-					<key>match</key>
-					<string>\[System\.IO\.Directory\]::(?:Exists|GetCreationTime|GetAttributes|GetLastAccessTime|GetLastWriteTime|ReadAllText)</string>
+					<string>\[(?:(?:Microsoft\.Build\.Utilities\.ToolLocationHelper)|(?:System\.(?:Byte|Char|Convert|DateTime|Decimal|Double|Enum|Environment|Guid|U?Int(?:16|32|64)|IO\.(?:Directory|File|Path)|Math|SByte|Single|String(?:Comparer)?|TimeSpan|Text\.RegularExpressions\.Regex)))\]::[_a-zA-Z0-9]+</string>
 					<key>name</key>
 					<string>support.function.source.msbuild</string>
 				</dict>

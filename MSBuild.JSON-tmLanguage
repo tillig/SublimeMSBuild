@@ -209,22 +209,7 @@
 				{
 					"comment": "Inline framework static class functions supported",
 					"name": "support.function.source.msbuild",
-					"match": "\\[(?:(?:Microsoft\\.Build\\.Utilities\\.ToolLocationHelper)|(?:System\\.(?:Byte|Char|Convert|DateTime|Decimal|Double|Enum|Guid|U?Int(?:16|32|64)|IO\\.Path|Math|SByte|Single|String(?:Comparer)?|TimeSpan|Text\\.RegularExpressions\\.Regex)))\\]::[_a-zA-Z0-9]+"
-				},
-				{
-					"comment": "Inline framework specific static methods supported: System.Environment",
-					"name": "support.function.source.msbuild",
-					"match": "\\[System\\.Environment\\]::(?:CommandLine|ExpandEnvironmentVariables|GetEnvironmentVariables?|GetFolderPath|GetLogicalDrives)"
-				},
-				{
-					"comment": "Inline framework specific static methods supported: System.IO.Directory",
-					"name": "support.function.source.msbuild",
-					"match": "\\[System\\.IO\\.Directory\\]::(?:GetDirectories|GetFiles|GetLastAccessTime|GetLastWriteTime|GetParent)"
-				},
-				{
-					"comment": "Inline framework specific static methods supported: System.IO.File",
-					"name": "support.function.source.msbuild",
-					"match": "\\[System\\.IO\\.Directory\\]::(?:Exists|GetCreationTime|GetAttributes|GetLastAccessTime|GetLastWriteTime|ReadAllText)"
+					"match": "\\[(?:(?:Microsoft\\.Build\\.Utilities\\.ToolLocationHelper)|(?:System\\.(?:Byte|Char|Convert|DateTime|Decimal|Double|Enum|Environment|Guid|U?Int(?:16|32|64)|IO\\.(?:Directory|File|Path)|Math|SByte|Single|String(?:Comparer)?|TimeSpan|Text\\.RegularExpressions\\.Regex)))\\]::[_a-zA-Z0-9]+"
 				}
 			]
 		},
