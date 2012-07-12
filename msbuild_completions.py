@@ -4,20 +4,25 @@ import re
 # Enable autocomplete to be fired when $( is typed
 # This is required because of the balanced-parentheses key binding
 class CompleteOnPropertyListener(sublime_plugin.EventListener):
-    def on_selection_modified(self,view):
+    def on_modified(self,view):
         sel = view.sel()[0]
         if not view.match_selector(sel.a, "source.msbuild"):
             return
-        ch = view.substr(sublime.Region(sel.a-2, sel.a))
-        if ch == '$(':
+
+        ch = view.substr(sublime.Region(sel.a-3, sel.a))
+
+        # Handle variables - $(...)
+        # Handle static property methods - $([...]::...)
+        if ch[-2:] == '$(' or  ch[-2:] == '::' or ch == '$([':
             view.run_command('auto_complete')
+
 
 # Provide completions that match just after typing a $() property reference
 class ReservedPropertyCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within MSBuild if it's a property
         if not view.match_selector(locations[0],
-                "source.msbuild"):
+                "variable.parameter.property.source.msbuild"):
             return []
 
         pt = locations[0] - len(prefix) - 2
@@ -38,6 +43,386 @@ class ReservedPropertyCompletions(sublime_plugin.EventListener):
             ("MSBuildProjectName", "MSBuildProjectName"),
             ("MSBuildStartupDirectory", "MSBuildStartupDirectory")
         ], sublime.INHIBIT_WORD_COMPLETIONS)
+
+
+# Provide completions that match just after typing a $([]) static method type reference
+class StaticFunctionTypes(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within MSBuild if it's a property
+        if not view.match_selector(locations[0],
+                "variable.parameter.property.source.msbuild"):
+            return []
+
+        pt = locations[0] - len(prefix) - 3
+        ch = view.substr(sublime.Region(pt, pt + 3))
+        if ch != '$([':
+            return []
+
+        return ([
+            ("Byte (Functions)", "System.Byte"),
+            ("Char (Functions)", "System.Char"),
+            ("Convert (Functions)", "System.Convert"),
+            ("DateTime (Functions)", "System.DateTime"),
+            ("Decimal (Functions)", "System.Decimal"),
+            ("Directory (Functions)", "System.IO.Directory"),
+            ("Double (Functions)", "System.Double"),
+            ("Enum (Functions)", "System.Enum"),
+            ("Environment (Functions)", "System.Environment"),
+            ("File (Functions)", "System.IO.File"),
+            ("Guid (Functions)", "System.Guid"),
+            ("Int16 (Functions)", "System.Int16"),
+            ("Int32 (Functions)", "System.Int32"),
+            ("Int64 (Functions)", "System.Int64"),
+            ("Math (Functions)", "System.Math"),
+            ("MSBuild (Functions)", "MSBuild"),
+            ("Path (Functions)", "System.IO.Path"),
+            ("Regex (Functions)", "System.Text.RegularExpressions.Regex"),
+            ("SByte (Functions)", "System.SByte"),
+            ("Single (Functions)", "System.Single"),
+            ("String (Functions)", "System.String"),
+            ("StringComparer (Functions)", "System.StringComparer"),
+            ("TimeSpan (Functions)", "System.TimeSpan"),
+            ("ToolLocationHelper (Functions)", "Microsoft.Build.Utilities.ToolLocationHelper"),
+            ("UInt16 (Functions)", "System.UInt16"),
+            ("UInt32 (Functions)", "System.UInt32"),
+            ("UInt64 (Functions)", "System.UInt64")
+        ], sublime.INHIBIT_WORD_COMPLETIONS)
+
+
+# Provide completions that match just after typing a $([]) static method type reference
+class StaticFunctions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within MSBuild if it's a property
+        if not view.match_selector(locations[0],
+                "variable.parameter.property.source.msbuild"):
+            return []
+
+        pt = locations[0] - len(prefix) - 2
+        ch = view.substr(sublime.Region(pt, pt + 2))
+        if ch != '::':
+            return []
+
+        line = view.line(pt)
+        partialLine = view.substr(sublime.Region(line.begin(), pt))
+        staticTypeMatch = re.search(".*\\$\\(\\[([\\w\\.]+)\\]", partialLine)
+        if staticTypeMatch is None:
+            return ([], sublime.INHIBIT_WORD_COMPLETIONS)
+
+        staticType = staticTypeMatch.group(1)
+        if staticType == "Microsoft.Build.Utilities.ToolLocationHelper":
+            return ([
+                ("GetDotNetFrameworkRootRegistryKey", "GetDotNetFrameworkRootRegistryKey(version)"),
+                ("GetDotNetFrameworkSdkInstallKeyValue", "GetDotNetFrameworkSdkInstallKeyValue(version)"),
+                ("GetDotNetFrameworkVersionFolderPrefix", "GetDotNetFrameworkVersionFolderPrefix(version)"),
+                ("GetPathToDotNetFramework", "GetPathToDotNetFramework(version)"),
+                ("GetPathToDotNetFrameworkFile", "GetPathToDotNetFrameworkFile(fileName, version)"),
+                ("GetPathToDotNetFrameworkSdk", "GetPathToDotNetFrameworkSdk(version)"),
+                ("GetPathToDotNetFrameworkSdkFile", "GetPathToDotNetFrameworkSdkFile(fileName, version)"),
+                ("GetPathToSystemFile", "GetPathToSystemFile(fileName)"),
+                ("PathToSystem", "PathToSystem"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "MSBuild":
+            return ([
+                ("Add", "Add(a, b)"),
+                ("BitwiseAnd", "BitwiseAnd(first, second)"),
+                ("BitwiseNot", "BitwiseNot(first)"),
+                ("BitwiseOr", "BitwiseOr(first, second)"),
+                ("BitwiseXor", "BitwiseXor(first, second)"),
+                ("Divide", "Divide(a, b)"),
+                ("Escape", "Escape(unescaped)"),
+                ("GetDirectoryNameOfFileAbove", "GetDirectoryNameOfFileAbove(path, file)"),
+                ("GetRegistryValue", "GetRegistryValue(keyName, valueName)"),
+                ("GetRegistryValueFromView", "GetRegistryValueFromView(keyName, valueName, defaultValue, views)"),
+                ("Modulo", "Modulo(a, b)"),
+                ("Multiply", "Multiply(a, b)"),
+                ("Subtract", "Subtract(a, b)"),
+                ("Unescape", "Unescape(escaped)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Byte":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Char":
+            return ([
+                ("ConvertFromUtf32", "ConvertFromUtf32(utf32)"),
+                ("ConvertToUtf32", "ConvertToUtf32(s, index)"),
+                ("GetNumericValue", "GetNumericValue(c)"),
+                ("GetUnicodeCategory", "GetUnicodeCategory(c)"),
+                ("IsControl", "IsControl(c)"),
+                ("IsDigit", "IsDigit(c)"),
+                ("IsHighSurrogate", "IsHighSurrogate(c)"),
+                ("IsLetter", "IsLetter(c)"),
+                ("IsLetterOrDigit", "IsLetterOrDigit(c)"),
+                ("IsLower", "IsLower(c)"),
+                ("IsLowSurrogate", "IsLowSurrogate(c)"),
+                ("IsNumber", "IsNumber(c)"),
+                ("IsPunctuation", "IsPunctuation(c)"),
+                ("IsSeparator", "IsSeparator(c)"),
+                ("IsSurrogate", "IsSurrogate(c)"),
+                ("IsSurrogatePair", "IsSurrogatePair(s, index)"),
+                ("IsSymbol", "IsSymbol(c)"),
+                ("IsUpper", "IsUpper(c)"),
+                ("IsWhiteSpace", "IsWhiteSpace(c)"),
+                ("Parse", "Parse(s)"),
+                ("ToLower", "ToLower(c)"),
+                ("ToLowerInvariant", "ToLowerInvariant(c)"),
+                ("ToString", "ToString(c)"),
+                ("ToUpper", "ToUpper(c)"),
+                ("ToUpperInvariant", "ToUpperInvariant(c)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Convert":
+            return ([
+                ("ChangeType", "ChangeType(value, conversionType)"),
+                ("FromBase64CharArray", "FromBase64CharArray(inArray, offset, length)"),
+                ("FromBase64String", "FromBase64String(s)"),
+                ("GetTypeCode", "GetTypeCode(value)"),
+                ("IsDBNull", "IsDBNull(value)"),
+                ("ToBase64CharArray", "ToBase64CharArray(inArray, offsetIn, length, outArray, offsetOut)"),
+                ("ToBase64String", "ToBase64String(inArray)"),
+                ("ToBoolean", "ToBoolean(value)"),
+                ("ToByte", "ToByte(value)"),
+                ("ToChar", "ToChar(value)"),
+                ("ToDateTime", "ToDateTime(value)"),
+                ("ToDecimal", "ToDecimal(value)"),
+                ("ToDouble", "ToDouble(value)"),
+                ("ToInt16", "ToInt16(value)"),
+                ("ToInt32", "ToInt32(value)"),
+                ("ToInt64", "ToInt64(value)"),
+                ("ToSByte", "ToSByte(value)"),
+                ("ToSingle", "ToSingle(value)"),
+                ("ToString", "ToString(value)"),
+                ("ToUInt16", "ToUInt16(value)"),
+                ("ToUInt32", "ToUInt32(value)"),
+                ("ToUInt64", "ToUInt64(value)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.DateTime":
+            return ([
+                ("Compare", "Compare(t1, t2)"),
+                ("DaysInMonth", "DaysInMonth(year, month)"),
+                ("Equals", "Equals(t1, t2)"),
+                ("FromBinary", "FromBinary(dateData)"),
+                ("FromFileTime", "FromFileTime(fileTime)"),
+                ("FromFileTimeUtc", "FromFileTimeUtc(fileTime)"),
+                ("FromOADate", "FromOADate(d)"),
+                ("IsLeapYear", "IsLeapYear(year)"),
+                ("Now", "Now"),
+                ("Parse", "Parse(s)"),
+                ("Today", "Today"),
+                ("UtcNow", "UtcNow"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Decimal":
+            return ([
+                ("Add", "Add(d1, d2)"),
+                ("Ceiling", "Ceiling(d)"),
+                ("Compare", "Compare(d1, d2)"),
+                ("Divide", "Divide(d1, d2)"),
+                ("Equals", "Equals(d1, d2)"),
+                ("Floor", "Floor(d)"),
+                ("FromOACurrency", "FromOACurrency(cy)"),
+                ("GetBits", "GetBits(d)"),
+                ("Multiply", "Multiply(d1, d2)"),
+                ("Negate", "Negate(d)"),
+                ("Parse", "Parse(s)"),
+                ("Remainder", "Remainder(d1, d2)"),
+                ("Round", "Round(d, decimals)"),
+                ("Subtract", "Subtract(d1, d2)"),
+                ("ToByte", "ToByte(value)"),
+                ("ToDouble", "ToDouble(d)"),
+                ("ToInt16", "ToInt16(value)"),
+                ("ToInt32", "ToInt32(d)"),
+                ("ToInt64", "ToInt64(d)"),
+                ("ToOACurrency", "ToOACurrency(value)"),
+                ("ToSByte", "ToSByte(value)"),
+                ("ToSingle", "ToSingle(d)"),
+                ("ToUInt16", "ToUInt16(value)"),
+                ("ToUInt32", "ToUInt32(d)"),
+                ("ToUInt64", "ToUInt64(d)"),
+                ("Truncate", "Truncate(d)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Double":
+            return ([
+                ("IsInfinity", "IsInfinity(d)"),
+                ("IsNaN", "IsNaN(d)"),
+                ("IsNegativeInfinity", "IsNegativeInfinity(d)"),
+                ("IsPositiveInfinity", "IsPositiveInfinity(d)"),
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Enum":
+            return ([
+                ("Format", "Format(enumType, value, format)"),
+                ("GetName", "GetName(enumType, value)"),
+                ("GetNames", "GetNames(enumType)"),
+                ("GetUnderlyingType", "GetUnderlyingType(enumType)"),
+                ("GetValues", "GetValues(enumType)"),
+                ("IsDefined", "IsDefined(enumType, value)"),
+                ("Parse", "Parse(enumType, value)"),
+                ("Parse", "Parse(enumType, value, ignoreCase)"),
+                ("ToObject", "ToObject(enumType, value)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Environment":
+            return ([
+                ("CommandLine", "CommandLine"),
+                ("ExpandEnvironmentVariables", "ExpandEnvironmentVariables(name)"),
+                ("GetEnvironmentVariable", "GetEnvironmentVariable(variable)"),
+                ("GetEnvironmentVariable", "GetEnvironmentVariable(variable, target)"),
+                ("GetEnvironmentVariables", "GetEnvironmentVariables"),
+                ("GetEnvironmentVariables", "GetEnvironmentVariables(target)"),
+                ("GetFolderPath", "GetFolderPath(folder)"),
+                ("GetLogicalDrives", "GetLogicalDrives"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Guid":
+            return ([
+                ("NewGuid", "NewGuid"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Int16":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Int32":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Int64":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.IO.Directory":
+            return ([
+                ("GetDirectories", "GetDirectories(path, searchPattern)"),
+                ("GetFiles", "GetFiles(path, searchPattern)"),
+                ("GetLastAccessTime", "GetLastAccessTime(path)"),
+                ("GetLastWriteTime", "GetLastWriteTime(path)"),
+                ("GetParent", "GetParent(path)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.IO.File":
+            return ([
+                ("Exists", "Exists(path)"),
+                ("GetAttributes", "GetAttributes(path)"),
+                ("GetCreationTime", "GetCreationTime(path)"),
+                ("GetLastAccessTime", "GetLastAccessTime(path)"),
+                ("GetLastWriteTime", "GetLastWriteTime(path)"),
+                ("ReadAllText", "ReadAllText(path)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.IO.Path":
+            return ([
+                ("ChangeExtension", "ChangeExtension(path, extension)"),
+                ("Combine", "Combine(path1, path2)"),
+                ("GetDirectoryName", "GetDirectoryName(path)"),
+                ("GetExtension", "GetExtension(path)"),
+                ("GetFileName", "GetFileName(path)"),
+                ("GetFileNameWithoutExtension", "GetFileNameWithoutExtension(path)"),
+                ("GetFullPath", "GetFullPath(path)"),
+                ("GetInvalidFileNameChars", "GetInvalidFileNameChars"),
+                ("GetInvalidPathChars", "GetInvalidPathChars"),
+                ("GetPathRoot", "GetPathRoot(path)"),
+                ("GetRandomFileName", "GetRandomFileName"),
+                ("GetTempFileName", "GetTempFileName"),
+                ("GetTempPath", "GetTempPath"),
+                ("HasExtension", "HasExtension(path)"),
+                ("IsPathRooted", "IsPathRooted(path)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Math":
+            return ([
+                ("Abs", "Abs(value)"),
+                ("Acos", "Acos(d)"),
+                ("Asin", "Asin(d)"),
+                ("Atan", "Atan(d)"),
+                ("Atan2", "Atan2(y, x)"),
+                ("BigMul", "BigMul(a, b)"),
+                ("Ceiling", "Ceiling(d)"),
+                ("Cos", "Cos(d)"),
+                ("Cosh", "Cosh(value)"),
+                ("Exp", "Exp(d)"),
+                ("Floor", "Floor(d)"),
+                ("IEEERemainder", "IEEERemainder(x, y)"),
+                ("Log", "Log(d)"),
+                ("Log10", "Log10(d)"),
+                ("Max", "Max(val1, val2)"),
+                ("Min", "Min(val1, val2)"),
+                ("Pow", "Pow(x, y)"),
+                ("Round", "Round(value, digits)"),
+                ("Sign", "Sign(value)"),
+                ("Sin", "Sin(a)"),
+                ("Sinh", "Sinh(value)"),
+                ("Sqrt", "Sqrt(d)"),
+                ("Tan", "Tan(a)"),
+                ("Tanh", "Tanh(value)"),
+                ("Truncate", "Truncate(d)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.SByte":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Single":
+            return ([
+                ("IsInfinity", "IsInfinity(f)"),
+                ("IsNaN", "IsNaN(f)"),
+                ("IsNegativeInfinity", "IsNegativeInfinity(f)"),
+                ("IsPositiveInfinity", "IsPositiveInfinity(f)"),
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.String":
+            return ([
+                ("Compare", "Compare(strA, strB, ignoreCase)"),
+                ("CompareOrdinal", "CompareOrdinal(strA, strB)"),
+                ("Concat", "Concat(values)"),
+                ("Copy", "Copy(str)"),
+                ("Equals", "Equals(a, b)"),
+                ("Format", "Format(format, args)"),
+                ("Intern", "Intern(str)"),
+                ("IsInterned", "IsInterned(str)"),
+                ("IsNullOrEmpty", "IsNullOrEmpty(value)"),
+                ("Join", "Join(separator, value)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.StringComparer":
+            return ([
+                ("Create", "Create(culture, ignoreCase)"),
+                ("CurrentCulture", "CurrentCulture"),
+                ("CurrentCultureIgnoreCase", "CurrentCultureIgnoreCase"),
+                ("InvariantCulture", "InvariantCulture"),
+                ("InvariantCultureIgnoreCase", "InvariantCultureIgnoreCase"),
+                ("Ordinal", "Ordinal"),
+                ("OrdinalIgnoreCase", "OrdinalIgnoreCase"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.Text.RegularExpressions.Regex":
+            return ([
+                ("CacheSize", "CacheSize"),
+                ("CompileToAssembly", "CompileToAssembly(regexinfos, assemblyname)"),
+                ("Escape", "Escape(str)"),
+                ("IsMatch", "IsMatch(input, pattern)"),
+                ("Match", "Match(input, pattern)"),
+                ("Matches", "Matches(input, pattern)"),
+                ("Replace", "Replace(input, pattern, replacement)"),
+                ("Split", "Split(input, pattern)"),
+                ("Unescape", "Unescape(str)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.TimeSpan":
+            return ([
+                ("Compare", "Compare(t1, t2)"),
+                ("Equals", "Equals(t1, t2)"),
+                ("FromDays", "FromDays(value)"),
+                ("FromHours", "FromHours(value)"),
+                ("FromMilliseconds", "FromMilliseconds(value)"),
+                ("FromMinutes", "FromMinutes(value)"),
+                ("FromSeconds", "FromSeconds(value)"),
+                ("FromTicks", "FromTicks(value)"),
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.UInt16":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.UInt32":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        elif staticType == "System.UInt64":
+            return ([
+                ("Parse", "Parse(s)"),
+            ], sublime.INHIBIT_WORD_COMPLETIONS)
+        else:
+            return ([], sublime.INHIBIT_WORD_COMPLETIONS)
+
 
 # Provide completions that match just after typing an opening angle bracket
 class TagCompletions(sublime_plugin.EventListener):
@@ -271,6 +656,7 @@ class TagCompletions(sublime_plugin.EventListener):
         ])
         completions = sorted(completions, key=lambda completion: completion[0])
         return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
+
 
 # Provide completions that match just after typing a . inside a %() item reference
 class WellKnownItemMetadataCompletions(sublime_plugin.EventListener):
