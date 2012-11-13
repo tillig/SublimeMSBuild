@@ -7,5 +7,15 @@
 	"windows":
 	{
 		"path": "%PATH%;%WINDIR%\\Microsoft.NET\\Framework\\v4.0.30319;%WINDIR%\\Microsoft.NET\\Framework\\v3.5;%WINDIR%\\Microsoft.NET\\Framework\\v2.0.50727"
-	}
+	},
+	"variants": [
+		{
+			"cmd": ["msbuild", "$file", "/p:Configuration=Debug"],
+			"name": "Debug Configuration"
+		},
+		{
+			"cmd": ["msbuild", "$file", "/p:Configuration=Release"],
+			"name": "Release Configuration"
+		}
+	]
 }
