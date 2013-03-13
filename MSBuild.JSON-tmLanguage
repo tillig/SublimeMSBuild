@@ -195,6 +195,7 @@
 				{ "include": "$self" },
 				{ "include": "#reservedProperty" },
 				{ "include": "#wellKnownMetadataEmbedded" },
+				{ "include": "#itemFunctions" },
 				{ "include": "#itemReference" },
 				{ "include": "#nestedParens" },
 				{ "include": "#entity" },
@@ -259,6 +260,23 @@
 				"1": { "name": "punctuation.definition.variable.begin.msbuild" },
 				"2": { "name": "punctuation.definition.variable.begin.msbuild" }
 			}
+		},
+		"itemFunctions": {
+			"comment": "Item metadata functions like @(VarName -> Count())",
+			"begin": "(\\s*->\\s*)(AnyHaveMetadataValue|ClearMetadata|Count|DirectoryName|Distinct|DistinctWithCase|HasMetadata|Metadata|Reverse|WithMetadataValue)(\\()",
+			"beginCaptures": {
+				"2": { "name": "support.function.source.msbuild" },
+				"3": { "name": "punctuation.definition.parameter-list.begin.msbuild" }
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.parameter-list.end.msbuild" }
+			},
+			"patterns": [
+				{ "include": "#singleQuotedString" },
+				{ "include": "#doubleQuotedString" },
+				{ "include": "#bareAmpersand" }
+			]
 		},
 		"wellKnownMetadataInline": {
 			"comment": "Well-known metadata like %(ItemName.Metadata)",

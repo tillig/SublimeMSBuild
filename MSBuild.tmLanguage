@@ -429,6 +429,51 @@
 			<key>name</key>
 			<string>constant.character.entity.msbuild</string>
 		</dict>
+		<key>itemFunctions</key>
+		<dict>
+			<key>begin</key>
+			<string>(\s*-&gt;\s*)(AnyHaveMetadataValue|ClearMetadata|Count|DirectoryName|Distinct|DistinctWithCase|HasMetadata|Metadata|Reverse|WithMetadataValue)(\()</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.source.msbuild</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameter-list.begin.msbuild</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Item metadata functions like @(VarName -&gt; Count())</string>
+			<key>end</key>
+			<string>\)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameter-list.end.msbuild</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#singleQuotedString</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#doubleQuotedString</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#bareAmpersand</string>
+				</dict>
+			</array>
+		</dict>
 		<key>itemReference</key>
 		<dict>
 			<key>begin</key>
@@ -744,6 +789,10 @@
 				<dict>
 					<key>include</key>
 					<string>#wellKnownMetadataEmbedded</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#itemFunctions</string>
 				</dict>
 				<dict>
 					<key>include</key>
