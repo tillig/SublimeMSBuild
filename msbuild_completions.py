@@ -442,7 +442,8 @@ class TagCompletions(sublime_plugin.EventListener):
             # MSBuild Project Schema: http://msdn.microsoft.com/en-us/library/5dy88c2e
             ("Target", "Target Name=\"$1\" DependsOnTargets=\"$2\">\n\t$3\n</Target>"),
             ("OnError", "OnError ExecuteTargets=\"$1\" />"),
-            ("ItemGroup", "ItemGroup>\n\t$1\n</ItemGroup>"),
+            ("ItemGroup [Empty]", "ItemGroup>\n\t$1\n</ItemGroup>"),
+            ("ItemGroup [Full]", "ItemGroup>\n\t<${1:ItemName}\n\t\tInclude=\"$2\"\n\t\tExclude=\"$3\"\n\t\tKeepMetadata=\"$4\"\n\t\tRemoveMetadata=\"$5\"\n\t\tKeepDuplicates=\"${6:False}\" />\n</ItemGroup>"),
             ("PropertyGroup", "PropertyGroup>\n\t$1\n</PropertyGroup>"),
             ("UsingTask", "UsingTask TaskName=\"$1\" AssemblyName=\"$2\" />"),
             ("ImportGroup", "ImportGroup Condition=\"$1\">\n\t<Import Project=\"$2\" />\n</ImportGroup>"),
