@@ -15,7 +15,7 @@
 	* MSBuild keywords and flow-control elements
 	* Standard MSBuild tasks
 	* C#/VB special project item elements
-	* Well-known item metadata
+	* Well-known item metadata and functions
 	* Reserved properties
 	* Variables
 	* Conditional operators
