@@ -37,11 +37,8 @@
 	* Supported framework method calls (e.g., `$([System.DateTime]::Now)`)
 
 ##Installation
-There are two options for installation:
 
-**The first option is to use [Sublime Package Control](http://wbond.net/sublime_packages/package_control).** Sublime Package Control is a package manager for Sublime Text. If you don't have it, you can [install it](http://wbond.net/sublime_packages/package_control/installation) and then install the `MSBuild` package by going to the command palette (Ctrl + Shift + P), selecting "Package Control: Install Package," and then selecting the MSBuild package from the list.
-
-**The second option is to download and install the standalone package.** [Download MSBuild.sublime-package](https://github.com/tillig/SublimeMSBuild/downloads) and install it [using the Sublime Text package installation instructions](http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages). Basically this means either double-clicking on the package file (if you have installed Sublime Text) or copying the package file into your `Data/Installed Packages` folder (if you're using a portable install of Sublime Text).
+**Install the package through [Sublime Package Control](http://wbond.net/sublime_packages/package_control).** Sublime Package Control is a package manager for Sublime Text. If you don't have it, you can [install it](http://wbond.net/sublime_packages/package_control/installation) and then install the `MSBuild` package by going to the command palette (Ctrl + Shift + P), selecting "Package Control: Install Package," and then selecting the MSBuild package from the list.
 
 ##License
 [MIT License](https://github.com/tillig/SublimeMSBuild/blob/master/LICENSE.md)
