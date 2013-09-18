@@ -11,7 +11,6 @@
 		<BuildOuptutDirectory>\$(MSBuildProjectDirectory)\build_output</BuildOuptutDirectory>
 		<BuildBinDirectory>\$(BuildOuptutDirectory)\bin</BuildBinDirectory>
 		<BuildDocDirectory>\$(BuildOuptutDirectory)\doc</BuildDocDirectory>
-		<BuildDocTempDirectory>\$(BuildOuptutDirectory)\temp</BuildDocTempDirectory>
 		<BuildLogDirectory>\$(BuildOuptutDirectory)\log</BuildLogDirectory>
 		<BuildPackageDirectory>\$(BuildOuptutDirectory)\package</BuildPackageDirectory>
 	</PropertyGroup>
@@ -54,7 +53,7 @@
 		</ItemGroup>
 		<PropertyGroup>
 			<TestResultsFile>\$(BuildLogDirectory)TestResults.Unit.xml</TestResultsFile>
-			<TestAssembly>\$(MSBuildProjectDirectory)\CommandPromptHereGenTests\bin\\\$(BuildConfiguration)\CommandPromptHereGenTests.dll</TestAssembly>
+			<TestAssembly>\$(MSBuildProjectDirectory)\MyProject\bin\\\$(BuildConfiguration)\MyProject.Tests.dll</TestAssembly>
 		</PropertyGroup>
 		<Exec Command="&quot;%(NUnitRunner.FullPath)&quot; &quot;\$(TestAssembly)&quot; /xml:\$(TestResultsFile)" />
 	</Target>
