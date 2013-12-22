@@ -9,6 +9,7 @@
 		<string>msbuild</string>
 		<string>csproj</string>
 		<string>vbproj</string>
+		<string>fsproj</string>
 	</array>
 	<key>foldingStartMarker</key>
 	<string>^\s*(&lt;[^!?%/](?!.+?(/&gt;|&lt;/.+?&gt;))|&lt;[!%]--(?!.+?--%?&gt;)|&lt;%[!]?(?!.+?%&gt;))</string>
