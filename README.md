@@ -10,6 +10,7 @@
 	* .msbuild
 	* .csproj
 	* .vbproj
+	* .fsproj
 * **Build system**: Execute the currently loaded MSBuild script and capture the results in the output pane. [Includes variants for 'Parallel,' 'Debug,' and 'Release' configurations.](https://github.com/tillig/SublimeMSBuild/wiki/Build-Variants)
 * **Syntax highlighting**:
 	* MSBuild keywords and flow-control elements
