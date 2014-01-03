@@ -1,6 +1,6 @@
 {
 	"cmd": ["msbuild", "$file"],
-  	"working_dir": "${file_path:${folder}}",
+	"working_dir": "${file_path:${folder}}",
 	"file_regex": "^\\s*(.+?)\\(([0-9]+),?([0-9]+)?\\):\\s*(.*) \\[",
 	"shell": true,
 	"selector": "source.msbuild",
@@ -8,35 +8,35 @@
 	{
 		"path": "%PATH%;%WINDIR%\\Microsoft.NET\\Framework\\v4.0.30319;%WINDIR%\\Microsoft.NET\\Framework\\v3.5;%WINDIR%\\Microsoft.NET\\Framework\\v2.0.50727"
 	},
-  	"linux": 
-  	{
-    	"cmd": ["xbuild $file"]
-  	},
-  	"variants": [
+	"linux":
+	{
+		"cmd": ["xbuild $file"]
+	},
+	"variants": [
 		{
 			"cmd": ["msbuild", "/m", "$file"],
 			"file_regex": "^\\s*\\d*>?\\s*(.+?)\\(([0-9]+),?([0-9]+)?\\):\\s*(.*) \\[",
 			"name": "Parallel Build",
-		  	"linux": 
-		  	{
-		    	"cmd": ["xbuild /m $file"]
-		  	},
+			"linux":
+			{
+				"cmd": ["xbuild /m $file"]
+			},
 		},
 		{
 			"cmd": ["msbuild", "$file", "/p:Configuration=Debug"],
 			"name": "Debug Configuration",
-		  	"linux": 
-		  	{
-		    	"cmd": ["xbuild $file /p:Configuration=Debug"]
-		  	},
+			"linux":
+			{
+				"cmd": ["xbuild $file /p:Configuration=Debug"]
+			},
 		},
 		{
 			"cmd": ["msbuild", "$file", "/p:Configuration=Release"],
 			"name": "Release Configuration",
-		  	"linux": 
-		  	{
-		    	"cmd": ["xbuild $file /p:Configuration=Release"]
-		  	},
+			"linux":
+			{
+				"cmd": ["xbuild $file /p:Configuration=Release"]
+			},
 		}
 	]
 }
