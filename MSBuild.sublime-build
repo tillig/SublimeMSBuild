@@ -20,7 +20,7 @@
 			"linux":
 			{
 				"cmd": ["xbuild /m $file"]
-			},
+			}
 		},
 		{
 			"cmd": ["msbuild", "$file", "/p:Configuration=Debug"],
@@ -28,7 +28,7 @@
 			"linux":
 			{
 				"cmd": ["xbuild $file /p:Configuration=Debug"]
-			},
+			}
 		},
 		{
 			"cmd": ["msbuild", "$file", "/p:Configuration=Release"],
@@ -36,7 +36,7 @@
 			"linux":
 			{
 				"cmd": ["xbuild $file /p:Configuration=Release"]
-			},
+			}
 		}
 	]
 }
