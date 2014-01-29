@@ -10,6 +10,7 @@
 		<string>csproj</string>
 		<string>vbproj</string>
 		<string>fsproj</string>
+		<string>vcxproj</string>
 	</array>
 	<key>foldingStartMarker</key>
 	<string>^\s*(&lt;[^!?%/](?!.+?(/&gt;|&lt;/.+?&gt;))|&lt;[!%]--(?!.+?--%?&gt;)|&lt;%[!]?(?!.+?%&gt;))</string>

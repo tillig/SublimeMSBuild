@@ -1,8 +1,8 @@
 #SublimeMSBuild
-[Sublime Text 2](http://www.sublimetext.com/) package for editing and executing MSBuild scripts.
+[Sublime Text](http://www.sublimetext.com/) package for editing and executing MSBuild scripts.
 
 ##Overview
-[Sublime Text 2](http://www.sublimetext.com/) is a highly-customizable text editor that allows you to add functionality through use of "packages." This package adds the following functionality for MSBuild:
+[Sublime Text](http://www.sublimetext.com/) is a highly-customizable text editor that allows you to add functionality through use of "packages." This package adds the following functionality for MSBuild:
 
 * **MSBuild file extension handling**:
 	* .proj
@@ -11,6 +11,7 @@
 	* .csproj
 	* .vbproj
 	* .fsproj
+	* .vcxproj
 * **Build system**: Execute the currently loaded MSBuild script and capture the results in the output pane. [Includes variants for 'Parallel,' 'Debug,' and 'Release' configurations.](https://github.com/tillig/SublimeMSBuild/wiki/Build-Variants)
 * **Syntax highlighting**:
 	* MSBuild keywords and flow-control elements

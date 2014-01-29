@@ -1,7 +1,7 @@
 {
 	"name": "MSBuild",
 	"scopeName": "source.msbuild",
-	"fileTypes": ["proj", "targets", "msbuild", "csproj", "vbproj", "fsproj"],
+	"fileTypes": ["proj", "targets", "msbuild", "csproj", "vbproj", "fsproj", "vcxproj"],
 	"uuid": "03ca5980-703e-4ee9-8271-d34088df8532",
 	"foldingStartMarker": "^\\s*(<[^!?%/](?!.+?(/>|</.+?>))|<[!%]--(?!.+?--%?>)|<%[!]?(?!.+?%>))",
 	"foldingStopMarker": "^\\s*(</[^>]+>|[/%]>|-->)\\s*$",

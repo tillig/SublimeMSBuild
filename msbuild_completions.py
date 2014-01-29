@@ -551,7 +551,7 @@ class TagCompletions(sublime_plugin.EventListener):
 
         # If MSBuild Community Tasks isn't imported, we're done.
         msbimport = view.find("((?i)<import\\s+project\\s*=\\s*\"([^\"]*msbuild.community.tasks.targets)\"[^>]*>)", 1)
-        if msbimport is None:
+        if msbimport is None or msbimport.empty():
             completions = sorted(completions, key=lambda completion: completion[0])
             return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
 
