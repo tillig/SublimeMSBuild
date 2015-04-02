@@ -4,7 +4,7 @@
 <Project InitialTargets="" DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 	<PropertyGroup>
 		<!-- Default build configuration if none is specified. -->
-		<Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
+		<Configuration Condition="'\$(Configuration)'==''">Debug</Configuration>
 		<!-- Path to NuGet.exe for solution-level package restore. -->
 		<NuGetExe>nuget.exe</NuGetExe>
 	</PropertyGroup>
@@ -12,11 +12,11 @@
 		<!-- Folders that should be deleted on clean. -->
 		<CleanFolder Include="TestResults"/>
 		<!-- Solutions that should be built. -->
-		<SolutionFile Include="$(MSBuildProjectDirectory)\**\*.sln" />
+		<SolutionFile Include="\$(MSBuildProjectDirectory)\**\*.sln" />
 	</ItemGroup>
 	<Target Name="All">
 		<CallTarget Targets="Clean;Compile;Test" />
-		<CallTarget Targets="Doc;Package" Condition="'$(Configuration)' == 'Release'"/>
+		<CallTarget Targets="Doc;Package" Condition="'\$(Configuration)' == 'Release'"/>
 		<Message Text="Build complete."/>
 	</Target>
 	<Target Name="Clean">
@@ -27,16 +27,16 @@
 	<Target Name="CleanNuGet">
 		<Message Text="Removing NuGet packages for clean package retrieval." />
 		<ItemGroup>
-			<NuGetRepositoryConfig Include="$(MSBuildProjectDirectory)/**/packages/repositories.config" />
-			<NuGetPackageFolders Include="$([System.IO.Directory]::GetDirectories(&quot;%(NuGetRepositoryConfig.RootDir)%(NuGetRepositoryConfig.Directory)&quot;))" />
+			<NuGetRepositoryConfig Include="\$(MSBuildProjectDirectory)/**/packages/repositories.config" />
+			<NuGetPackageFolders Include="\$([System.IO.Directory]::GetDirectories(&quot;%(NuGetRepositoryConfig.RootDir)%(NuGetRepositoryConfig.Directory)&quot;))" />
 		</ItemGroup>
 		<RemoveDir Directories="%(NuGetPackageFolders.Identity)" />
 	</Target>
 	<Target Name="Compile">
 		<Message Text="Restoring solution-level NuGet packages." />
-		<Exec Command="&quot;$(NuGetExe)&quot; restore &quot;%(SolutionFile.FullPath)&quot;" />
+		<Exec Command="&quot;\$(NuGetExe)&quot; restore &quot;%(SolutionFile.FullPath)&quot;" />
 		<Message Text="Building the solution(s)." />
-		<MSBuild Projects="%(SolutionFile.FullPath)" Targets="Build" Properties="Configuration=$(Configuration)"/>
+		<MSBuild Projects="%(SolutionFile.FullPath)" Targets="Build" Properties="Configuration=\$(Configuration)"/>
 	</Target>
 	<Target Name="Doc">
 		<!-- Doc compiles any XML API docs into a distributable help package. -->
