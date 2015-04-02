@@ -2,42 +2,41 @@
 	<content><![CDATA[
 <?xml version="1.0" encoding="utf-8"?>
 <Project InitialTargets="" DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-	<!--
-		Debug == msbuild default.proj
-		Release == msbuild default.proj /p:BuildConfiguration=Release
-	-->
 	<PropertyGroup>
-		<BuildConfiguration Condition="'\$(BuildConfiguration)'==''">Debug</BuildConfiguration>
-		<BuildOuptutDirectory>\$(MSBuildProjectDirectory)\build_output</BuildOuptutDirectory>
-		<BuildBinDirectory>\$(BuildOuptutDirectory)\bin</BuildBinDirectory>
-		<BuildDocDirectory>\$(BuildOuptutDirectory)\doc</BuildDocDirectory>
-		<BuildLogDirectory>\$(BuildOuptutDirectory)\log</BuildLogDirectory>
-		<BuildPackageDirectory>\$(BuildOuptutDirectory)\package</BuildPackageDirectory>
+		<!-- Default build configuration if none is specified. -->
+		<Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
+		<!-- Path to NuGet.exe for solution-level package restore. -->
+		<NuGetExe>nuget.exe</NuGetExe>
 	</PropertyGroup>
 	<ItemGroup>
-		<CleanFolders Include="\$(BuildOuptutDirectory)"/>
-		<CleanFolders Include="TestResults"/>
+		<!-- Folders that should be deleted on clean. -->
+		<CleanFolder Include="TestResults"/>
+		<!-- Solutions that should be built. -->
+		<SolutionFile Include="$(MSBuildProjectDirectory)\**\*.sln" />
 	</ItemGroup>
 	<Target Name="All">
-		<CallTarget Targets="Clean;Compile;Test;Analyze" />
-		<CallTarget Targets="Doc;Package" Condition="'\$(Configuration)' == 'Release'"/>
+		<CallTarget Targets="Clean;Compile;Test" />
+		<CallTarget Targets="Doc;Package" Condition="'$(Configuration)' == 'Release'"/>
 		<Message Text="Build complete."/>
 	</Target>
-	<Target Name="Analyze">
-		<!-- Analyze runs post-build analysis like FxCop and NDepend. -->
-	</Target>
 	<Target Name="Clean">
-		<!-- Clean removes all build artifacts to prepare for a new build. -->
-		<RemoveDir Directories="@(CleanFolders)" />
+		<Message Text="Removing build artifacts." />
+		<RemoveDir Directories="@(CleanFolder)" />
+		<MSBuild Projects="%(SolutionFile.FullPath)" Condition="Exists('%(SolutionFile.FullPath)')" Targets="Clean"/>
+	</Target>
+	<Target Name="CleanNuGet">
+		<Message Text="Removing NuGet packages for clean package retrieval." />
+		<ItemGroup>
+			<NuGetRepositoryConfig Include="$(MSBuildProjectDirectory)/**/packages/repositories.config" />
+			<NuGetPackageFolders Include="$([System.IO.Directory]::GetDirectories(&quot;%(NuGetRepositoryConfig.RootDir)%(NuGetRepositoryConfig.Directory)&quot;))" />
+		</ItemGroup>
+		<RemoveDir Directories="%(NuGetPackageFolders.Identity)" />
 	</Target>
 	<Target Name="Compile">
-		<!-- Compile builds all the projects/solutions and copies the output to prepare for analysis/packaging. -->
-
-		<!-- NuGet package restore for solution packages. -->
-		<MSBuild Projects="\$(MSBuildProjectDirectory)\.nuget\NuGet.targets" Targets="RestorePackages" />
-
-		<!-- Build the solution. -->
-		<MSBuild Projects="MySolution.sln" Targets="Build" Properties="Configuration=\$(BuildConfiguration)" />
+		<Message Text="Restoring solution-level NuGet packages." />
+		<Exec Command="&quot;$(NuGetExe)&quot; restore &quot;%(SolutionFile.FullPath)&quot;" />
+		<Message Text="Building the solution(s)." />
+		<MSBuild Projects="%(SolutionFile.FullPath)" Targets="Build" Properties="Configuration=$(Configuration)"/>
 	</Target>
 	<Target Name="Doc">
 		<!-- Doc compiles any XML API docs into a distributable help package. -->
@@ -47,15 +46,6 @@
 	</Target>
 	<Target Name="Test">
 		<!-- Test runs the unit testing/coverage for the project. -->
-		<ItemGroup>
-			<!-- Locate the NUnit console tool from the solution-level NuGet package. -->
-			<NUnitRunner Include="\$(MSBuildProjectDirectory)\packages\NUnit.Runners.*\tools\nunit-console.exe" />
-		</ItemGroup>
-		<PropertyGroup>
-			<TestResultsFile>\$(BuildLogDirectory)TestResults.Unit.xml</TestResultsFile>
-			<TestAssembly>\$(MSBuildProjectDirectory)\MyProject\bin\\\$(BuildConfiguration)\MyProject.Tests.dll</TestAssembly>
-		</PropertyGroup>
-		<Exec Command="&quot;%(NUnitRunner.FullPath)&quot; &quot;\$(TestAssembly)&quot; /xml:\$(TestResultsFile)" />
 	</Target>
 </Project>
 ]]></content>
