@@ -35,13 +35,25 @@ class ReservedPropertyCompletions(sublime_plugin.EventListener):
             ("MSBuildExtensionsPath", "MSBuildExtensionsPath"),
             ("MSBuildExtensionsPath32", "MSBuildExtensionsPath32"),
             ("MSBuildExtensionsPath64", "MSBuildExtensionsPath64"),
+            ("MSBuildLastTaskResult", "MSBuildLastTaskResult"),
+            ("MSBuildNodeCount", "MSBuildNodeCount"),
+            ("MSBuildProgramFiles32", "MSBuildProgramFiles32"),
             ("MSBuildProjectDefaultTargets", "MSBuildProjectDefaultTargets"),
             ("MSBuildProjectDirectory", "MSBuildProjectDirectory"),
+            ("MSBuildProjectDirectoryNoRoot", "MSBuildProjectDirectoryNoRoot"),
             ("MSBuildProjectExtension", "MSBuildProjectExtension"),
             ("MSBuildProjectFile", "MSBuildProjectFile"),
             ("MSBuildProjectFullPath", "MSBuildProjectFullPath"),
             ("MSBuildProjectName", "MSBuildProjectName"),
-            ("MSBuildStartupDirectory", "MSBuildStartupDirectory")
+            ("MSBuildStartupDirectory", "MSBuildStartupDirectory"),
+            ("MSBuildThisFile", "MSBuildThisFile"),
+            ("MSBuildThisFileDirectory", "MSBuildThisFileDirectory"),
+            ("MSBuildThisFileDirectoryNoRoot", "MSBuildThisFileDirectoryNoRoot"),
+            ("MSBuildThisFileExtension", "MSBuildThisFileExtension"),
+            ("MSBuildThisFileFullPath", "MSBuildThisFileFullPath"),
+            ("MSBuildThisFileName", "MSBuildThisFileName"),
+            ("MSBuildToolsPath", "MSBuildToolsPath"),
+            ("MSBuildToolsVersion", "MSBuildToolsVersion")
         ], sublime.INHIBIT_WORD_COMPLETIONS)
 
 
@@ -452,7 +464,7 @@ class TagCompletions(sublime_plugin.EventListener):
             ("When", "When Condition=\"$1\">$2</When>"),
             ("Otherwise", "Otherwise>$1</Otherwise>"),
             ("Project", "Project DefaultTargets=\"$1\" InitialTargets=\"$2\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" ToolsVersion=\"4.0\">\n\t$3\n</Project>"),
-            
+
             # Common MSBuild Project Items: http://msdn.microsoft.com/en-us/library/bb629388
             ("Reference [Item]", "Reference Include=\"${1:MyAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0000000000000000, processorArchitecture=MSIL}\">\n\t<HintPath>$2</HintPath>\n\t<Name>$3</Name>\n\t<FusionName>$4</FusionName>\n\t<SpecificVersion>${5:False}</SpecificVersion>\n\t<Aliases>$6</Aliases>\n\t<Private>${7:False}</Private>\n</Reference>"),
             ("COMReference [Item]", "COMReference Include=\"$1\">\n\t<Name>$2</Name>\n\t<Guid>$3</Guid>\n\t<VersionMajor>$4</VersionMajor>\n\t<VersionMinor>$5</VersionMinor>\n\t<LCID>$6</LCID>\n\t<WrapperTool>${7:TLBImp}</WrapperTool>\n\t<Isolated>$8</Isolated>\n<COMReference>"),

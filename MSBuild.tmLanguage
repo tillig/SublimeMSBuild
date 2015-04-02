@@ -649,7 +649,7 @@
 			<key>comment</key>
 			<string>Properties provided by MSBuild</string>
 			<key>match</key>
-			<string>(?i)(\$\()(MSBuild(BinPath|ExtensionsPath(?:32|64)?|ProjectDefaultTargets|ProjectDirectory|ProjectExtension|ProjectFile|ProjectFullPath|ProjectName|StartupDirectory))(\))</string>
+			<string>(?i)(\$\()(MSBuild(BinPath|ExtensionsPath(?:32|64)?|LastTaskResult|NodeCount|ProgramFiles32|ProjectDefaultTargets|ProjectDirectory(?:NoRoot)?|ProjectExtension|ProjectFile|ProjectFullPath|ProjectName|StartupDirectory|ThisFile(?:Directory|DirectoryNoRoot|Extension|FullPath|Name)?|ToolsPath|ToolsVersion))(\))</string>
 			<key>name</key>
 			<string>support.constant.source.msbuild</string>
 		</dict>

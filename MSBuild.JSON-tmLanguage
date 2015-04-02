@@ -173,7 +173,7 @@
 		"reservedProperty": {
 			"comment": "Properties provided by MSBuild",
 			"name": "support.constant.source.msbuild",
-			"match": "(?i)(\\$\\()(MSBuild(BinPath|ExtensionsPath(?:32|64)?|ProjectDefaultTargets|ProjectDirectory|ProjectExtension|ProjectFile|ProjectFullPath|ProjectName|StartupDirectory))(\\))",
+			"match": "(?i)(\\$\\()(MSBuild(BinPath|ExtensionsPath(?:32|64)?|LastTaskResult|NodeCount|ProgramFiles32|ProjectDefaultTargets|ProjectDirectory(?:NoRoot)?|ProjectExtension|ProjectFile|ProjectFullPath|ProjectName|StartupDirectory|ThisFile(?:Directory|DirectoryNoRoot|Extension|FullPath|Name)?|ToolsPath|ToolsVersion))(\\))",
 			"captures": {
 				"1": { "name": "punctuation.definition.constant.begin.msbuild" },
 				"2": { "name": "support.constant.source.msbuild" },
