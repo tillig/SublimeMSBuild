@@ -457,7 +457,7 @@ class TagCompletions(sublime_plugin.EventListener):
             ("ItemGroup [Empty]", "ItemGroup>\n\t$1\n</ItemGroup>"),
             ("ItemGroup [Full]", "ItemGroup>\n\t<${1:ItemName}\n\t\tInclude=\"$2\"\n\t\tExclude=\"$3\"\n\t\tKeepMetadata=\"$4\"\n\t\tRemoveMetadata=\"$5\"\n\t\tKeepDuplicates=\"${6:False}\" />\n</ItemGroup>"),
             ("PropertyGroup", "PropertyGroup>\n\t$1\n</PropertyGroup>"),
-            ("UsingTask", "UsingTask TaskName=\"$1\" AssemblyName=\"$2\" />"),
+            ("UsingTask", "UsingTask TaskName=\"$1\" AssemblyFile=\"$2\" />"),
             ("ImportGroup", "ImportGroup Condition=\"$1\">\n\t<Import Project=\"$2\" />\n</ImportGroup>"),
             ("Import", "Import Project=\"$1\" />"),
             ("Choose", "Choose>\n\t<When Condition=\"$1\">$2</When>\n\t<Otherwise>$3</Otherwise>\n</Choose>"),
