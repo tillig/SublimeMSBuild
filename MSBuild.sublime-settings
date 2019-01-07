@@ -1,14 +1,14 @@
 {
 	// Version for the MSBuild package. Used in reporting issues
 	// and troubleshooting.
-	"msbuild_package_version": "1.0",
+	"msbuild_package_version": "1.3",
 
 	// Enable auto-complete in additional non-standard areas
 	// for "IntelliSense" help.
 	"auto_complete_triggers": [
 		// Tags
 		{ "selector": "source.msbuild", "characters": "<" },
-		
+
 		// Well-known item metadata
 		{ "selector": "variable.parameter.item.source.msbuild", "characters": "." }
 	]
