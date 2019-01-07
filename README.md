@@ -1,7 +1,7 @@
-#SublimeMSBuild
+# SublimeMSBuild
 [Sublime Text](http://www.sublimetext.com/) package for editing and executing MSBuild scripts.
 
-##Overview
+## Overview
 [Sublime Text](http://www.sublimetext.com/) is a highly-customizable text editor that allows you to add functionality through use of "packages." This package adds the following functionality for MSBuild:
 
 * **MSBuild file extension handling**:
@@ -38,17 +38,17 @@
 	* C#/VB special project item elements (e.g., `Reference`, `Compile`)
 	* Supported framework method calls (e.g., `$([System.DateTime]::Now)`)
 
-##Installation
+## Installation
 
 **Install the package through [Sublime Package Control](http://wbond.net/sublime_packages/package_control).** Sublime Package Control is a package manager for Sublime Text. If you don't have it, you can [install it](http://wbond.net/sublime_packages/package_control/installation) and then install the `MSBuild` package by going to the command palette (Ctrl + Shift + P), selecting "Package Control: Install Package," and then selecting the MSBuild package from the list.
 
-##License
+## License
 [MIT License](https://github.com/tillig/SublimeMSBuild/blob/master/LICENSE.md)
 
-##Build System MSBuild.exe Fallback
+## Build System MSBuild.exe Fallback
 Most Sublime Text build systems assume you have the build executable (`MSBuild.exe`) in your path. The system included here dynamically looks for `MSBuild.exe` in the .NET framework folders in the event you don't already have it in your path. The fallback order is `v4.0.30319 -> v3.5 -> v2.0.50727`. If you want to modify that fallback order, edit the `MSBuild.sublime-build` file in your `Data\Packages\MSBuild` folder.
 
-##Package Developers
+## Package Developers
 If you want to modify the syntax highlighter or otherwise work on enhancing the package to suit your needs, it's recommended you get the [AAAPackageDev](https://github.com/SublimeText/AAAPackageDev) package for Sublime Text. This allows you to edit syntax files in `.JSON-tmLanguage` format and compile them into PList rather than manually editing PList directly. It also has several helpers/templates for adding functionality to Sublime Text packages.
 
 Additional helpful links:
