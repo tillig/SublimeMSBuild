@@ -467,6 +467,8 @@ class TagCompletions(sublime_plugin.EventListener):
 
             # Common MSBuild Project Items: http://msdn.microsoft.com/en-us/library/bb629388
             ("Reference [Item]", "Reference Include=\"${1:MyAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0000000000000000, processorArchitecture=MSIL}\">\n\t<HintPath>$2</HintPath>\n\t<Name>$3</Name>\n\t<FusionName>$4</FusionName>\n\t<SpecificVersion>${5:False}</SpecificVersion>\n\t<Aliases>$6</Aliases>\n\t<Private>${7:False}</Private>\n</Reference>"),
+            ("PackageReference [Item]", "PackageReference Include=\"${1:MyPackage}\" Version=\"$2\" PrivateAssets=\"$3\" IncludeAssets=\"$4\" ExcludeAssets=\"$5\"/>"),
+            ("DotNetCliToolReference [Item]", "DotNetCliToolReference Include=\"${1:MyTool}\" Version=\"$2\"/>"),
             ("COMReference [Item]", "COMReference Include=\"$1\">\n\t<Name>$2</Name>\n\t<Guid>$3</Guid>\n\t<VersionMajor>$4</VersionMajor>\n\t<VersionMinor>$5</VersionMinor>\n\t<LCID>$6</LCID>\n\t<WrapperTool>${7:TLBImp}</WrapperTool>\n\t<Isolated>$8</Isolated>\n<COMReference>"),
             ("COMFileReference [Item]", "COMFileReference Include=\"$1\">\n\t<WrapperTool>${2:TLBImp}</WrapperTool>\n<COMFileReference>"),
             ("NativeReference [Item]", "NativeReference Include=\"$1\">\n\t<HintPath>$2</HintPath>\n\t<Name>$3</Name>\n</NativeReference>"),

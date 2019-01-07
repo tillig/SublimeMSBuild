@@ -1,3 +1,4 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
 {
 	"name": "MSBuild",
 	"scopeName": "source.msbuild",
@@ -83,7 +84,7 @@
 		},
 		{
 			"comment": "Project item types",
-			"begin": "(</?)(CodeAnalysisDictionary|Compile|Content|EmbeddedResource|None|Reference)\\b",
+			"begin": "(</?)(CodeAnalysisDictionary|Compile|Content|DotNetCliToolReference|EmbeddedResource|None|PackageReference|Reference)\\b",
 			"captures": {
 				"1": { "name": "punctuation.definition.tag.begin.msbuild" },
 				"2": { "name": "keyword.other.source.msbuild"}
